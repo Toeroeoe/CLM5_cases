@@ -1,0 +1,8 @@
+
+streams = "user_datm.streams.txt.CLMCRUNCEPv7.Solar 2021 2021 2021",
+        "user_datm.streams.txt.CLMCRUNCEPv7.Precip 2021 2021 2021",
+        "user_datm.streams.txt.CLMCRUNCEPv7.TPQW 2021 2021 2021"
+dtlimit = 1.5, 1.5, 1.5, 1.5, 1.5
+
+! "nearest" as we are running at the same resolution as the forcing data
+tintalgo = "nearest", "nearest", "nearest", "nearest", "nearest"
