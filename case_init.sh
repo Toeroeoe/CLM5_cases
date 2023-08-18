@@ -34,12 +34,13 @@ dir_forcing=/p/scratch/cjibg31/shared/EUR-0275_forcings_ERA5
 
 ### File names
 file_domain=domain.lnd.EUR-0275.230303_cut.nc
-file_surf=surfdata_EUR-0275_hist_16pfts_Irrig_CMIP6_simyr2005_c230712_cut_pos.nc
+#file_surf=surfdata_EUR-0275_hist_16pfts_Irrig_CMIP6_simyr2005_c230712_cut_pos.nc
+file_surf=surfdata_EUR-0275_hist_16pfts_Irrig_CMIP6_simyr2000_c230216_GLC2000.nc
 #file_surf=surfdata_EUR-0275_hist_78pfts_CMIP6_simyr2005_c230307_cut.nc
 #file_init=CLM5EU3_BGC_r.nc
 
 ### Settings
-name_case=CLM5EUR-0275_SP_ERA5_3
+name_case=CLM5EUR-0275_SP_ERA5_3_GLC2000
 #compset=I2000Clm50BgcCruGs          # Other compsets are not tested
 #compset=I2000Clm50BgcCropGs
 #compset=2000_DATM%CRUv7_CLM50%BGC_SICE_SOCN_MOSART_SGLC_SWAV
@@ -57,7 +58,7 @@ hist_flt=365
 
 ## History or output variables
 #hist_vars="'GPP','QFLX_EVAP_TOT','ALBD','TLAI'"
-hist_vars="'GPP','QFLX_EVAP_TOT','ALBD','TLAI'"
+hist_vars="'QFLX_EVAP_TOT','ALBD','TLAI'"
 
 ## How many resubmits
 ## Careful, not tested with other time periods
@@ -106,7 +107,7 @@ echo "Enter case directory..."
 ./xmlchange ATM_DOMAIN_PATH="$dir_domain",LND_DOMAIN_PATH="$dir_domain"
 ./xmlchange ATM_DOMAIN_FILE="$file_domain",LND_DOMAIN_FILE="$file_domain"
 ## On jureca, with 10 nodes = 1280 CPUs
-./xmlchange NTASKS=1280
+./xmlchange NTASKS=1024
 ./xmlchange DATM_MODE=CLMCRUNCEPv7
 ## Setup case
 ./case.setup
@@ -123,6 +124,9 @@ sed -i "s#file_init#'$dir_init/$file_init'#" user_nl_clm
 sed -i "s#hist_vars#$hist_vars#" user_nl_clm
 sed -i "s#hist_frq#$hist_frq#" user_nl_clm
 sed -i "s#hist_flt#$hist_flt#" user_nl_clm
+
+sed -i "s#year_start#$year_start#g" user_nl_datm
+sed -i "s#year_end#$year_end#" user_nl_datm
 
 echo "Adjust settings in config datm stream files..."
 sed -i "s#dir_domain#$dir_domain#" user_datm.streams.txt.CLMCRUNCEPv7.Precip
@@ -155,8 +159,8 @@ cp user_datm.streams* Buildconf/datmconf
 ## With JURECA and using 1280 CPUs, the model runs ca. 6 years per 20 hours (please check)
 ./xmlchange STOP_OPTION=nyears,RUN_STARTDATE=$year_start-01-01,STOP_DATE=-1,STOP_N=$stop_n
 
-# constant (für I2000 compsets CO2 concentration = start year concentration)
-# CO2A is transient concentration diagnostic
+## CO2 constant (für I2000 compsets CO2 concentration = start year concentration)
+## CO2A is transient concentration diagnostic
 # ./xmlchange CCSM_BGC=none
 #./xmlchange CCSM_BGC=CO2A
 #./xmlchange CLM_CO2_TYPE=diagnostic
