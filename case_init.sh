@@ -40,7 +40,7 @@ setup_CLM5_case(){
             elif [ $year -ne $4 ] && [ $month -ne 12 ]; then
                 
                 file+="\n"
-                
+
             fi
             
             year_files+=$file
@@ -52,7 +52,6 @@ setup_CLM5_case(){
     # https://icg4geo.icg.kfa-juelich.de/ModelSystems/clm/CLM5.0_on_JSC_Machines
     # Load environment modules
     ${23} >/dev/null 2>&1
-    module load Python
 
     # Create the case directory
     echo "Create case..."
@@ -115,10 +114,12 @@ setup_CLM5_case(){
     ./xmlchange STOP_OPTION=nyears,RUN_STARTDATE=$3-01-01,STOP_DATE=-1,STOP_N=$5
 
     # atmospheric CO2 options
-    ./xmlchange CCSM_BGC=${17}
-    ./xmlchange CLM_CO2_TYPE=${18}
-    ./xmlchange DATM_CO2_TSERIES=${19}
-
+    if ${25}; then
+        ./xmlchange CCSM_BGC=${17}
+        ./xmlchange CLM_CO2_TYPE=${18}
+        ./xmlchange DATM_CO2_TSERIES=${19}
+    fi
+    
     # Resubmit times (How many times STOP_N should be simulated?)
     ./xmlchange RESUBMIT=$resubmit
 
@@ -154,10 +155,10 @@ file_init=none
 
 # File names
 file_domain=domain.lnd.EUR-0275.230303_cut.nc
-file_surf=surfdata_EUR-0275_hist_16pfts_Irrig_CMIP6_simyr2000_c230216_GLC2000.nc
+file_surf=surfdata_EUR-0275_hist_16pfts_Irrig_CMIP6_simyr2005_c230712_cut_pos.nc
 
 # Main case settings
-name_case=CLM5EUR-0275_SP_ERA5_3_GLC2000_test
+name_case=CLM5EUR-0275_SP_ERA5_final
 compset=2000_DATM%CRUv7_CLM50%SP_SICE_SOCN_MOSART_SGLC_SWAV
 NTASKS=1024
 
@@ -174,9 +175,11 @@ hist_flt=365
 # Atmospheric carbon module
 # To turn off set CCSM_BGC to none
 # https://docs.cesm.ucar.edu/models/cesm2/settings/current/drv_input_cesm.html
-CCSM_BGC=none 
+# https://escomp.github.io/ctsm-docs/versions/master/html/users_guide/running-special-cases/Running-stand-alone-CLM-with-transient-historical-CO2-concentration.html
+co2=false
+CCSM_BGC=CO2A 
 CLM_CO2_TYPE=diagnostic
-DATM_CO2_TSERIES=SSP3-7.0
+DATM_CO2_TSERIES=20tr
 
 # Number of time steps per day
 # Either 24 or 48
@@ -191,11 +194,11 @@ COLDSTART=on
 hist_vars="'QFLX_EVAP_TOT','ALBD','TLAI'"
 
 # Bool if you want the script to directly build your case
-build=false
+build=true
 
 
 setup_CLM5_case $dir_work $name_case $year_start $year_end $stop_n $compset \
         $dir_domain $file_domain $dir_surf $file_surf $dir_init $file_init \
         $hist_vars $hist_frq $hist_flt $dir_forcing $CCSM_BGC $CLM_CO2_TYPE \
-        $DATM_CO2_TSERIES $NTASKS $NCPL $COLDSTART $env $build
+        $DATM_CO2_TSERIES $NTASKS $NCPL $COLDSTART $env $build $co2
 
