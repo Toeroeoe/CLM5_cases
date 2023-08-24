@@ -2,6 +2,9 @@
 # Script to set up CLM5 cases
 # With different arguments
 
+# To do:
+# - 
+
 
 
 setup_CLM5_case(){
@@ -28,14 +31,29 @@ setup_CLM5_case(){
 
         for month in $(seq -f %02g 01 12); do
 
-            year_files+="${year}-${month}.nc\n"
+            file="${year}-${month}.nc"
+
+            if [ $3 -eq $4 ] && [ $month -ne 12 ]; then
+
+                file+="\n"
+            
+            elif [ $year -ne $4 ] && [ $month -ne 12 ]; then
+                
+                file+="\n"
+                
+            fi
+            
+            year_files+=$file
 
         done
     done
 
     # Please install config files accordingly
     # https://icg4geo.icg.kfa-juelich.de/ModelSystems/clm/CLM5.0_on_JSC_Machines
+    # Load environment modules
     ${23} >/dev/null 2>&1
+    module load Python
+
     # Create the case directory
     echo "Create case..."
     ./create_newcase --case $2 --res CLM_USRDAT --compset $6 --run-unsupported
@@ -114,7 +132,9 @@ setup_CLM5_case(){
     ./xmlchange DOUT_S=FALSE
 
     # ready to build and submit !!!
-    ./case.build
+    if ${24}; then
+        ./case.build
+    fi
 
 } 
 
@@ -137,7 +157,7 @@ file_domain=domain.lnd.EUR-0275.230303_cut.nc
 file_surf=surfdata_EUR-0275_hist_16pfts_Irrig_CMIP6_simyr2000_c230216_GLC2000.nc
 
 # Main case settings
-name_case=CLM5EUR-0275_SP_ERA5_3_GLC2001
+name_case=CLM5EUR-0275_SP_ERA5_3_GLC2000_test
 compset=2000_DATM%CRUv7_CLM50%SP_SICE_SOCN_MOSART_SGLC_SWAV
 NTASKS=1024
 
@@ -170,9 +190,12 @@ COLDSTART=on
 # https://www2.cesm.ucar.edu/models/cesm1.2/clm/models/lnd/clm/doc/UsersGuide/history_fields_table_40.xhtml
 hist_vars="'QFLX_EVAP_TOT','ALBD','TLAI'"
 
+# Bool if you want the script to directly build your case
+build=false
+
 
 setup_CLM5_case $dir_work $name_case $year_start $year_end $stop_n $compset \
         $dir_domain $file_domain $dir_surf $file_surf $dir_init $file_init \
         $hist_vars $hist_frq $hist_flt $dir_forcing $CCSM_BGC $CLM_CO2_TYPE \
-        $DATM_CO2_TSERIES $NTASKS $NCPL $COLDSTART $env
+        $DATM_CO2_TSERIES $NTASKS $NCPL $COLDSTART $env $build
 
