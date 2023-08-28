@@ -114,7 +114,7 @@ setup_CLM5_case(){
     ./xmlchange STOP_OPTION=nyears,RUN_STARTDATE=$3-01-01,STOP_DATE=-1,STOP_N=$5
 
     # atmospheric CO2 options
-    if ${25}; then
+    if [ ${25} == "T" ]; then
         ./xmlchange CCSM_BGC=${17}
         ./xmlchange CLM_CO2_TYPE=${18}
         ./xmlchange DATM_CO2_TSERIES=${19}
@@ -133,7 +133,7 @@ setup_CLM5_case(){
     ./xmlchange DOUT_S=FALSE
 
     # ready to build and submit !!!
-    if ${24}; then
+    if [ ${24} == "T" ]; then
         ./case.build
     fi
 
@@ -176,7 +176,7 @@ hist_flt=365
 # To turn off set CCSM_BGC to none
 # https://docs.cesm.ucar.edu/models/cesm2/settings/current/drv_input_cesm.html
 # https://escomp.github.io/ctsm-docs/versions/master/html/users_guide/running-special-cases/Running-stand-alone-CLM-with-transient-historical-CO2-concentration.html
-co2=false
+co2="F"
 CCSM_BGC=CO2A 
 CLM_CO2_TYPE=diagnostic
 DATM_CO2_TSERIES=20tr
@@ -194,7 +194,7 @@ COLDSTART=on
 hist_vars="'QFLX_EVAP_TOT','ALBD','TLAI'"
 
 # Bool if you want the script to directly build your case
-build=true
+build="T"
 
 
 setup_CLM5_case $dir_work $name_case $year_start $year_end $stop_n $compset \
