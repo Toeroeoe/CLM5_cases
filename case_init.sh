@@ -176,7 +176,7 @@ hist_flt=365
 # To turn off set CCSM_BGC to none
 # https://docs.cesm.ucar.edu/models/cesm2/settings/current/drv_input_cesm.html
 # https://escomp.github.io/ctsm-docs/versions/master/html/users_guide/running-special-cases/Running-stand-alone-CLM-with-transient-historical-CO2-concentration.html
-co2="F"
+co2="F" # "T"rue or "F"alse
 CCSM_BGC=CO2A 
 CLM_CO2_TYPE=diagnostic
 DATM_CO2_TSERIES=20tr
@@ -194,7 +194,8 @@ COLDSTART=on
 hist_vars="'QFLX_EVAP_TOT','ALBD','TLAI'"
 
 # Bool if you want the script to directly build your case
-build="T"
+# "T"rue or "F"alse
+build="T" 
 
 
 setup_CLM5_case $dir_work $name_case $year_start $year_end $stop_n $compset \
