@@ -23,7 +23,7 @@ setup_CLM5_case(){
 
     fi
 
-    resubmit=$(( ($4-$3)/$5 ))
+    local resubmit=$(( ($4-$3)/$5 ))
 
     local year_files=""
 
@@ -112,6 +112,7 @@ setup_CLM5_case(){
 
     ## Every Job will have STOP_N simulation years; starting from year_start.
     ./xmlchange STOP_OPTION=nyears,RUN_STARTDATE=$3-01-01,STOP_DATE=-1,STOP_N=$5
+    ./xmlchange JOB_WALLCLOCK_TIME=${26}
 
     # atmospheric CO2 options
     if [ ${25} == "T" ]; then
@@ -119,6 +120,9 @@ setup_CLM5_case(){
         ./xmlchange CLM_CO2_TYPE=${18}
         ./xmlchange DATM_CO2_TSERIES=${19}
     fi
+
+    # Accelerated decomposition mode for first part of spin up
+    ./xmlchange CLM_ACCELERATED_SPINUP=${27}
     
     # Resubmit times (How many times STOP_N should be simulated?)
     ./xmlchange RESUBMIT=$resubmit
@@ -166,6 +170,7 @@ NTASKS=1024
 year_start=1979
 year_end=1979
 stop_n=1
+wallclock_time="24:00:00"
 
 # Frequency ouput and file arrangements
 # https://escomp.github.io/ctsm-docs/versions/release-clm5.0/html/users_guide/setting-up-and-running-a-case/customizing-the-clm-namelist.html
@@ -189,6 +194,9 @@ NCPL=24
 # on or off
 COLDSTART=on
 
+# Accelerated decomposition (as first part of spinup?)?
+AC_spin_up=on
+
 # History or output variables
 # https://www2.cesm.ucar.edu/models/cesm1.2/clm/models/lnd/clm/doc/UsersGuide/history_fields_table_40.xhtml
 hist_vars="'QFLX_EVAP_TOT','ALBD','TLAI'"
@@ -201,5 +209,6 @@ build="T"
 setup_CLM5_case $dir_work $name_case $year_start $year_end $stop_n $compset \
         $dir_domain $file_domain $dir_surf $file_surf $dir_init $file_init \
         $hist_vars $hist_frq $hist_flt $dir_forcing $CCSM_BGC $CLM_CO2_TYPE \
-        $DATM_CO2_TSERIES $NTASKS $NCPL $COLDSTART $env $build $co2
+        $DATM_CO2_TSERIES $NTASKS $NCPL $COLDSTART $env $build $co2 $wallclock_time \
+        $AC_spin_up
 
