@@ -27,24 +27,18 @@ setup_CLM5_case(){
 
     local year_files=""
 
+    
     for year in $(seq $3 $4); do
-
         for month in $(seq -f %02g 01 12); do
 
-            file="${year}-${month}.nc"
+            file="${year}-${month}.nc\n"
 
-            if [ $3 -eq $4 ] && [ $month -ne 12 ]; then
+            if [ $year -eq $4 ] && [ $month -eq 12 ]; then
 
-                file+="\n"
-            
-            elif [ $year -ne $4 ] && [ $month -ne 12 ]; then
-                
-                file+="\n"
-
+                file=${file::-2}
             fi
-            
-            year_files+=$file
 
+            year_files+=$file
         done
     done
 
@@ -162,7 +156,7 @@ file_domain=domain.lnd.EUR-0275.230303_cut.nc
 file_surf=surfdata_EUR-0275_hist_16pfts_Irrig_CMIP6_simyr2005_c230712_cut_pos.nc
 
 # Main case settings
-name_case=CLM5EUR-0275_SP_ERA5_final
+name_case=CLM5EUR-0275_SP_ERA5_ff
 compset=2000_DATM%CRUv7_CLM50%SP_SICE_SOCN_MOSART_SGLC_SWAV
 NTASKS=1024
 
@@ -203,7 +197,7 @@ hist_vars="'QFLX_EVAP_TOT','ALBD','TLAI'"
 
 # Bool if you want the script to directly build your case
 # "T"rue or "F"alse
-build="T" 
+build="F" 
 
 
 setup_CLM5_case $dir_work $name_case $year_start $year_end $stop_n $compset \
