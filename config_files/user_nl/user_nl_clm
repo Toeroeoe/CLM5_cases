@@ -1,10 +1,11 @@
 
-! finidat = file_init
+file_init
 fsurdat = file_surf
 
 hist_empty_htapes = .true.
-urban_traffic = .false.
 
-hist_fincl1 = hist_vars
+hist_fincl1 = hist_vars_grid
 hist_nhtfrq = hist_frq
 hist_mfilt  = hist_flt
+
+hist_vars_pft

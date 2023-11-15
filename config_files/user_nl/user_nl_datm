@@ -2,7 +2,6 @@
 streams = "user_datm.streams.txt.CLMCRUNCEPv7.Solar year_start year_start year_end",
         "user_datm.streams.txt.CLMCRUNCEPv7.Precip year_start year_start year_end",
         "user_datm.streams.txt.CLMCRUNCEPv7.TPQW year_start year_start year_end"
-dtlimit = 1.5, 1.5, 1.5, 1.5, 1.5
 
-! "nearest" as we are running at the same resolution as the forcing data
-tintalgo = "nearest", "nearest", "nearest", "nearest", "nearest"
+dtlimit = dt_limit, dt_limit, dt_limit, dt_limit, dt_limit
+
