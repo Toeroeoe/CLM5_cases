@@ -21,6 +21,9 @@ class case:
     Maybe in future: different datm interpolation methods?
     https://escomp.github.io/ctsm-docs/versions/release-clm5.0/html/users_guide/setting-up-and-running-a-case/customizing-the-datm-namelist.html
 
+    To do:
+    - Custom forcings switch: consider the stated stream files in the user datm namelist
+
     """
 
     dir_script: str 
@@ -36,17 +39,18 @@ class case:
     dir_surf: str
     file_surf: str
     months_per_wallclock: int
+    time_resolution_forcing_hours: int
 
     ncpl: int                   = 24
     wallclock: str              = '24:00:00'
     
+    mode_datm: str              = 'CLMCRUNCEPv7'
+    hist_vars_grid: list        = field(default_factory = list)
+    hist_vars_pft: list         = field(default_factory = list)
     hist_frq_grid: int          = -24
     hist_flt_grid: int          = 365
     hist_frq_pft: int           = -24
     hist_flt_pft: int           = 365
-    mode_datm: str              = 'CLMCRUNCEPv7'
-    hist_vars_grid: list        = field(default_factory = list)
-    hist_vars_pft: list         = field(default_factory = list)
 
     month_start: int            = 1
     month_end: int              = 12
@@ -55,7 +59,7 @@ class case:
     month_end_forcing: int      = 12
 
     custom_forcings: bool       = True
-    timestep_forcing_hours: int = 3
+
 
     dir_domain_atm: None | str  = None
     file_domain_atm: None | str = None
@@ -64,6 +68,8 @@ class case:
     file_init: str | None       = None
 
     dir_forcing: str | None     = None
+
+    vars_forcing: dict | None   = None
 
     mode_co2: None | str        = None 
 
@@ -217,7 +223,7 @@ class case:
 
         hist_vars_grid      = "'" + "', '".join(self.hist_vars_grid) + "'"
 
-        dt_limit            = (24 + self.timestep_forcing_hours) / self.timestep_forcing_hours
+        dt_limit            = (24 + self.time_resolution_forcing_hours) / self.time_resolution_forcing_hours
 
         if self.hist_vars_pft:
 
@@ -253,6 +259,7 @@ class case:
         self.search_replace('config_files/user_nl/', 'user_nl_clm', keys_namelist_clm, dir_setup)
         self.search_replace('config_files/user_nl/', 'user_nl_datm', keys_namelist_datm, dir_setup)
 
+
         print('\nNamelists created and copied.\n')
     
 
@@ -281,7 +288,7 @@ class case:
 
         """
 
-        if not self.custom_forcings: print('\nNo stream files necessary.\n');return
+        if not self.custom_forcings: print('\nNo stream files necessary.\n'); return
         
         print('\nCreate case stream files...\n')
 
@@ -291,20 +298,50 @@ class case:
 
         year_files          = [f'{y}-{m:02d}.nc' for y in range(self.year_start_forcing, self.year_end_forcing + 1) for m in range(1,13)]
 
-        keys_streams        = { 'dir_domain': self.dir_domain_atm,
+        keys_solar          = {k: v for k, v in self.vars_forcing.items() if k == 'swdn'}
+        keys_precn          = {k: v for k, v in self.vars_forcing.items() if k == 'precn'}
+        keys_tpqw           = {k: v for k, v in self.vars_forcing.items() if k not in ['swdn', 'precn']}
+
+        str_solar           = '\n'.join([f'{v}\t{k}' for k, v in keys_solar.items()])
+        str_precn           = '\n'.join([f'{v}\t{k}' for k, v in keys_precn.items()])
+        str_tpqw            = '\n'.join([f'{v}\t{k}' for k, v in keys_tpqw.items()])
+
+        keys_streams_solar  = { 'dir_domain': self.dir_domain_atm,
                                 'file_domain': self.file_domain_atm, 
                                 'dir_forcing': self.dir_forcing,
                                 'year_files': '\n'.join(year_files),
+                                'vars_solar': str_solar,
                                }
         
-        self.search_replace('config_files/user_datm/', 'user_datm.streams.txt.CLMCRUNCEPv7.Precip', keys_streams, dir_setup)
-        self.search_replace('config_files/user_datm/', 'user_datm.streams.txt.CLMCRUNCEPv7.Solar', keys_streams, dir_setup)
-        self.search_replace('config_files/user_datm/', 'user_datm.streams.txt.CLMCRUNCEPv7.TPQW', keys_streams, dir_setup)
+        keys_streams_precn  = { 'dir_domain': self.dir_domain_atm,
+                                'file_domain': self.file_domain_atm, 
+                                'dir_forcing': self.dir_forcing,
+                                'year_files': '\n'.join(year_files),
+                                'vars_precn': str_precn,
+                               }
+        
+        keys_streams_tpqw   = { 'dir_domain': self.dir_domain_atm,
+                                'file_domain': self.file_domain_atm, 
+                                'dir_forcing': self.dir_forcing,
+                                'year_files': '\n'.join(year_files),
+                                'vars_tpqw': str_tpqw,
+                               }
+        
+        self.search_replace('config_files/user_datm/', 'user_datm.streams.txt.CLMCRUNCEPv7.Precip', keys_streams_precn, dir_setup)
+        self.search_replace('config_files/user_datm/', 'user_datm.streams.txt.CLMCRUNCEPv7.Solar', keys_streams_solar, dir_setup)
+        self.search_replace('config_files/user_datm/', 'user_datm.streams.txt.CLMCRUNCEPv7.TPQW', keys_streams_tpqw, dir_setup)
 
         subprocess.call(f'{dir_setup}/preview_namelists', cwd = dir_setup)
         subprocess.call(f'cp user_datm.streams.* Buildconf/datmconf/', shell = True, cwd = dir_setup)
 
         print('\nCase stream files created.\n')
+
+        if self.vars_forcing is None: return
+
+        keys_solar          = {k: v for k, v in self.vars_forcing.items() if k == 'swdn'}
+        keys_precn          = {k: v for k, v in self.vars_forcing.items() if k == 'precn'}
+        keys_tpqw           = {k: v for k, v in self.vars_forcing.items() if k not in ['swdn', 'precn']}
+
 
 
     def build(self, clean: bool = False):
@@ -356,7 +393,7 @@ class case:
 
         print('\nCase submit...\n')
 
-        subprocess.call([f'{dir_setup}/case.submit'], cwd = dir_setup)
+        subprocess.call([f'{dir_setup}/case.submit', '--resubmit-immediate'], cwd = dir_setup)
 
         print('\nCase submitted. All done!\n')
 

@@ -20,7 +20,7 @@
    </domainInfo>
    <fieldInfo>
       <variableNames>
-        PRECTmms  precn 
+        vars_precn 
       </variableNames>
       <filePath>
         dir_forcing

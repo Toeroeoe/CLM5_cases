@@ -6,7 +6,7 @@
    <domainInfo>
       <variableNames>
         time    time
-        xc      lon 
+        xc      lon
         yc      lat
         area    area
         mask    mask
@@ -20,7 +20,7 @@
    </domainInfo>
    <fieldInfo>
       <variableNames>
-        vars_tpqw
+        FSDS    swdn
       </variableNames>
       <filePath>
         dir_forcing
@@ -33,3 +33,4 @@
       </offset>
    </fieldInfo>
 </file>
+

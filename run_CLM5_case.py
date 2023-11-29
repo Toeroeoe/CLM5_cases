@@ -3,8 +3,7 @@ import CLM5_data
 
 
 # Settings
-
-name_case           = 'CLM5_BGC_EUR_0275_spinup'
+name_case           = 'CLM5_BGC_EUR_0275_ML_east_0000'
 do_setup_clean      = False
 do_build_clean      = False
 
@@ -19,5 +18,3 @@ my_case.namelists()
 my_case.streams()
 my_case.build(clean = do_build_clean)
 my_case.submit()
-
-

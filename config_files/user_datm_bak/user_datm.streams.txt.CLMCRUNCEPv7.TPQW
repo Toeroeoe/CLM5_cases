@@ -20,7 +20,11 @@
    </domainInfo>
    <fieldInfo>
       <variableNames>
-        vars_tpqw
+        TBOT     tbot 
+        WIND     wind
+        QBOT     shum 
+        PSRF     pbot
+        FLDS	   lwdn
       </variableNames>
       <filePath>
         dir_forcing

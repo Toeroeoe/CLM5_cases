@@ -20,7 +20,7 @@
    </domainInfo>
    <fieldInfo>
       <variableNames>
-        vars_tpqw
+        names_vars
       </variableNames>
       <filePath>
         dir_forcing

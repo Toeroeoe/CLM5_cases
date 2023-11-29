@@ -6,7 +6,7 @@
    <domainInfo>
       <variableNames>
         time    time
-        xc      lon 
+        xc      lon
         yc      lat
         area    area
         mask    mask
@@ -20,13 +20,13 @@
    </domainInfo>
    <fieldInfo>
       <variableNames>
-        vars_tpqw
+        PRECTmms  precn 
       </variableNames>
       <filePath>
         dir_forcing
       </filePath>
       <fileNames>
-		    year_files
+        year_files
       </fileNames>
       <offset>
         0

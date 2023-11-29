@@ -20,7 +20,7 @@
    </domainInfo>
    <fieldInfo>
       <variableNames>
-        FSDS    swdn
+        vars_solar
       </variableNames>
       <filePath>
         dir_forcing
