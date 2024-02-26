@@ -7,7 +7,7 @@
 from dataclasses import dataclass, field
 
 @dataclass
-class case:
+class CLM5_case:
 
     """
     I hope to be a generic class for most CLM5 user cases.
@@ -22,7 +22,8 @@ class case:
     https://escomp.github.io/ctsm-docs/versions/release-clm5.0/html/users_guide/setting-up-and-running-a-case/customizing-the-datm-namelist.html
 
     To do:
-    - Custom forcings switch: consider the stated stream files in the user datm namelist
+    - Test / adapt for cases with default forcings (no stream files)
+    - Test / adapt for single-point cases
 
     """
 
@@ -40,6 +41,7 @@ class case:
     file_surf: str
     months_per_wallclock: int
     time_resolution_forcing_hours: int
+    dir_output: str
 
     ncpl: int                   = 24
     wallclock: str              = '24:00:00'
@@ -75,6 +77,8 @@ class case:
 
     type_co2: str               = 'constant' 
     ppmv_co2: float             = 379.0
+
+    methane_model: bool         = True
     
     series_co2: str             = None
 
@@ -87,7 +91,7 @@ class case:
     continue_run: bool          = False
 
 
-    def create(self):
+    def create(self, delete: bool = False):
         
         """
         To create a case directory.
@@ -95,10 +99,19 @@ class case:
         """
         import os
         import subprocess
+        import shutil
+
+        if delete: 
+
+            print(f'\nDelete {self.name} existing case and output directory. \n')
+
+            shutil.rmtree(f'{self.dir_script}/{self.name}/', ignore_errors = True)
+            shutil.rmtree(f'{self.dir_output}/{self.name}/', ignore_errors = True)
+
         
         if os.path.isdir(f'{self.dir_script}/{self.name}'): 
             
-            print('\nCase directory already exists. \n')
+            print(f'\n{self.name} case directory already exists. \n')
 
             return
 
@@ -125,14 +138,16 @@ class case:
 
         dir_setup           = f'{self.dir_script}/{self.name}'
 
-        if clean: subprocess.call([f'{dir_setup}/case.setup', 
-                                   '--clean'], cwd = dir_setup)
-        
         if os.path.isdir(f'{dir_setup}/CaseDocs/'): 
             
             print('Case is already set-up. Clean?')
             
-            return
+            if not clean: return
+
+
+        if clean: print('Clean...'); subprocess.call([f'{dir_setup}/case.setup', 
+                                   '--clean'], cwd = dir_setup)
+
 
         print('\nSet-up case ...\n')
 
@@ -241,7 +256,8 @@ class case:
         else:
             
             hist_pft_str    = ''
-
+                    
+        methane_str         = '' if self.methane_model else 'use_lch4 = .false.'
 
         keys_namelist_clm   = { 'file_surf': f"'{self.dir_surf}/{self.file_surf}'",
                                 'file_init': file_init,
@@ -249,6 +265,7 @@ class case:
                                 'hist_flt': self.hist_flt_grid,
                                 'hist_vars_grid': hist_vars_grid,
                                 'hist_vars_pft': hist_pft_str,
+                                'methane_model': methane_str,
                                 }
         
         keys_namelist_datm  = { 'year_start': self.year_start_forcing,

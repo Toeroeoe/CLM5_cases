@@ -9,3 +9,5 @@ hist_nhtfrq = hist_frq
 hist_mfilt  = hist_flt
 
 hist_vars_pft
+
+methane_model

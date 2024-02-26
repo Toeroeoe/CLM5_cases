@@ -2,12 +2,13 @@
 CLM5_BGC_EUR_0275_spinup = {
 
     'dir_script': '/p/project/cjibg31/jibg3105/clm5.0/cime/scripts',
-    'name': 'CLM5-EUR0275-BGC_spinup_0001',
+    'name': 'CLM5-EUR0275-BGC_spinup_0001_JW',
     'compset': '2000_DATM%CRUv7_CLM50%BGC-CROP_SICE_SOCN_MOSART_SGLC_SWAV',
     'n_cpu': 1024,
     'ncpl': 24,
     'wallclock': '20:00:00',
     'months_per_wallclock': 72,
+    'dir_output': '/p/scratch/cjibg31/jibg3105/CESMDataRoot/CaseOutputs/',
     
     'hist_frq_grid': 0,
     'hist_flt_grid': 12,
@@ -17,10 +18,10 @@ CLM5_BGC_EUR_0275_spinup = {
     'hist_vars_grid': ['GPP', 'TLAI', 'TOTECOSYSC', 'TOTECOSYSN', 'TOTSOMC', 'TOTVEGC', 'TWS'],
     'hist_vars_pft': [],
 
-    'year_start': 60,
+    'year_start': 486,
     'month_start': 1,
 
-    'year_end': 120,
+    'year_end': 545,
     'month_end': 12,
 
     'year_start_forcing': 1950,
@@ -39,7 +40,7 @@ CLM5_BGC_EUR_0275_spinup = {
     'file_surf': 'surfdata_EUR-0275_hist_78pfts_Irrig_CMIP6_simyr2000_c230216_GLC2000.nc',
 
     'dir_init': '/p/scratch/cjibg31/jibg3105/data/CLM5EUR0275/spinup/restart/',
-    'file_init': 'CLM5-EUR0275-BGC_spinup_0001.clm2.r.0060-01-01-00000.nc',
+    'file_init': 'CLM5-EUR0275-BGC_spinup_0001_JW.clm2.r.0486-01-01-00000.nc',
 
     'dir_forcing': '/p/scratch/cjibg31/jibg3105/CESMDataRoot/InputData/Forcings/ERA5_EUR-0275/spinup/',
 
@@ -64,22 +65,24 @@ CLM5_BGC_EUR_0275_spinup = {
 
     'job_archive': False,
 
-    'AD_spin_up': True,
+    'AD_spin_up': False,
 
     'continue_run': False
 
 }
 
 
-CLM5_BGC_EUR_0275_ML_west_0000 = {
+CLM5_BGC_EUR_0275_ML_west = {
 
     'dir_script': '/p/project/cjibg31/jibg3105/clm5.0/cime/scripts',
-    'name': 'CLM5_BGC_EUR_0275_ML_west_0000',
+    'name': 'CLM5_BGC_EUR_0275_ML_west_0003_JW',
     'compset': 'I2000Clm50BgcCruGs',
     'n_cpu': 384,
     'ncpl': 24,
     'wallclock': '24:00:00',
-    'months_per_wallclock': 96,
+    'dir_output': '/p/scratch/cjibg31/jibg3105/CESMDataRoot/CaseOutputs',
+    
+    'months_per_wallclock': 120,
     
     'hist_frq_grid': -24,
     'hist_flt_grid': 365,
@@ -89,10 +92,10 @@ CLM5_BGC_EUR_0275_ML_west_0000 = {
     'hist_vars_grid': ['GPP', 'TLAI', 'TOTECOSYSC', 'TOTECOSYSN', 'TOTSOMC', 'TOTVEGC', 'TWS'],
     'hist_vars_pft': [],
 
-    'year_start': 1995,
+    'year_start': 0,
     'month_start': 1,
 
-    'year_end': 2018,
+    'year_end': 23,
     'month_end': 12,
 
     'year_start_forcing': 1995,
@@ -111,7 +114,7 @@ CLM5_BGC_EUR_0275_ML_west_0000 = {
     'file_surf': 'surfdata_CLM5EU3_FATES_west.nc',
 
     'dir_init': '/p/scratch/cjibg31/jibg3105/CESMDataRoot/InputData/lnd/clm2/initdata_map/CLM5EUR0275_ML/',
-    'file_init': 'CLM5EU3_BGC_west_ml_pft_soil.r.nc',
+    'file_init': 'CLM5EU3_BGC_west_ml_pft_soil.r_003.nc',
 
     'dir_forcing': '/p/scratch/cjibg31/jibg3105/CESMDataRoot/InputData/Forcings/CLM5EU3_west/',
 
@@ -131,6 +134,8 @@ CLM5_BGC_EUR_0275_ML_west_0000 = {
     
     'series_co2': None,
 
+    'methane_model': False,
+
     'coldstart': False,
 
     'job_archive': False,
@@ -141,15 +146,17 @@ CLM5_BGC_EUR_0275_ML_west_0000 = {
 
 }
 
-CLM5_BGC_EUR_0275_ML_east_0000 = {
+CLM5_BGC_EUR_0275_ML_east= {
 
     'dir_script': '/p/project/cjibg31/jibg3105/clm5.0/cime/scripts',
-    'name': 'CLM5_BGC_EUR_0275_ML_east_0000',
+    'name': 'CLM5_BGC_EUR_0275_ML_east_0003_JW',
     'compset': 'I2000Clm50BgcCruGs',
     'n_cpu': 1024,
     'ncpl': 24,
     'wallclock': '24:00:00',
-    'months_per_wallclock': 72,
+    'dir_output': '/p/scratch/cjibg31/jibg3105/CESMDataRoot/CaseOutputs',
+
+    'months_per_wallclock': 60,
     
     'hist_frq_grid': -24,
     'hist_flt_grid': 365,
@@ -159,10 +166,10 @@ CLM5_BGC_EUR_0275_ML_east_0000 = {
     'hist_vars_grid': ['GPP', 'TLAI', 'TOTECOSYSC', 'TOTECOSYSN', 'TOTSOMC', 'TOTVEGC', 'TWS'],
     'hist_vars_pft': [],
 
-    'year_start': 1995,
+    'year_start': 0,
     'month_start': 1,
 
-    'year_end': 2018,
+    'year_end': 23,
     'month_end': 12,
 
     'year_start_forcing': 1995,
@@ -180,8 +187,8 @@ CLM5_BGC_EUR_0275_ML_east_0000 = {
     'dir_surf': '/p/scratch/cjibg31/jibg3105/CESMDataRoot/InputData/lnd/clm2/surfdata_map/',
     'file_surf': 'surfdata_CLM5EU3_FATES_east.nc',
 
-    'dir_init': '/p/scratch/cjibg31/jibg3105/CESMDataRoot/InputData/lnd/clm2/initdata_map/CLM5EUR0275_ML/',
-    'file_init': 'CLM5EU3_BGC_east_ml_pft_soil.r.nc',
+    'dir_init': '/p/scratch/cjibg31/jibg3105/CESMDataRoot/InputData/lnd/clm2/initdata_map/CLM5EUR0275_ML',
+    'file_init': 'CLM5EU3_BGC_east_ml_pft_soil.r_003.nc',
 
     'dir_forcing': '/p/scratch/cjibg31/jibg3105/CESMDataRoot/InputData/Forcings/CLM5EU3_east/',
 
@@ -200,6 +207,8 @@ CLM5_BGC_EUR_0275_ML_east_0000 = {
     'ppmv_co2': 379.0, 
     
     'series_co2': None,
+
+    'methane_model': False,
 
     'coldstart': False,
 

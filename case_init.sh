@@ -229,6 +229,10 @@ hist_vars="'QFLX_EVAP_TOT','ALBD','TLAI'"
 # 'FSM', 'Qle', 'Rnet', 'SWdown', 'TBOT','SWup','Qh','LWdown','LWup','Qstor','ALBD', 'ALBGRD', 'TSOI',
 # 'FCEV', 'FCTR', 'FGEV', 'FGR', 'FSNO', 'QCHARGE', 'RAIN', 'QOVER', 'QIRRIG', 'QINFL', 'QINTR', 'QFLX_EVAP_VEG', 'QFLX_EVAP_GRND', 'QFLX_EVAP_TOT', 'QICE', 'H2OCAN', 'H2OCAN', 'QDRAI',
 # 'H2OSNO', 'H2OSOI', 'RH', 'SNOW', 'SNOWDP', 'SNOWICE', 'SNOTTOPL', 'SNOWLIQ', 'TLAI', 'TSAI', 'TWS','ZWT','GSSHA','GSSUN' 
+# 'VEGWP'
+# 'FDRY'
+# 'QROOTSINK'
+
 # Which of these can be output from COLUMN or PFT level?
 
 # Bool if you want the script to directly build your case
