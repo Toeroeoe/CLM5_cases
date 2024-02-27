@@ -1,17 +1,18 @@
-import user_data_arpita_test
-from model_cases import CLM5_case
+
+import user_settings
+from CLM5 import case
 
 
 # Settings
-name_case           = 'east'
-do_case_delete      = False
+name_case           = 'CLM5_BGC_EUR_0275_spinup_test_JR'
+do_case_delete      = True
 do_setup_clean      = False
 do_build_clean      = False
-do_submit           = True
+do_submit           = False
 
 
 # Main
-my_case = CLM5_case(**getattr(user_data_arpita_test, name_case))
+my_case = case(**getattr(user_settings, name_case))
 
 my_case.create(delete = do_case_delete)
 my_case.setup(clean = do_setup_clean)

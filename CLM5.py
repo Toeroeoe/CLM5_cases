@@ -7,7 +7,7 @@
 from dataclasses import dataclass, field
 
 @dataclass
-class CLM5_case:
+class case:
 
     """
     I hope to be a generic class for most CLM5 user cases.
