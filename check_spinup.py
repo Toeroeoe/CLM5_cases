@@ -1,18 +1,66 @@
 
 
 
-def check_steady_state(name_case: str, subperiod: int, path_hist: str,
-                       year_start: None | int = None, year_end: None | int = None,
-                       glob_thresh: dict = {'TOTECOSYSC': 0.02, 'TOTSOMC': 0.02, 'TOTVEGC': 0.02, 
-                                            'TLAI': 0.02, 'GPP': 0.02, 'TWS': 0.001},
-                       units: dict = {'TOTECOSYSC': r'$\mathdefault{g\;C}$', 'TOTSOMC': r'$\mathdefault{g\;C}$', 
-                                      'TOTVEGC': r'$\mathdefault{g\;C}$','TLAI': r'$\mathdefault{m^{2}\;m^{2}}$', 
-                                      'GPP': r'$\mathdefault{g\;C\;year^{-1}}$', 'TWS': r'$\mathdefault{m}$'},
-                       relative_area_thresh: float = 3.0, cell_thresh = 1.0,
-                       magnitudes: dict = {'TOTECOSYSC': 14, 'TOTSOMC': 14, 'TOTVEGC': 14, 
-                                            'TLAI': 0, 'GPP': 14, 'TWS': 0},
-                       path_grid: str = '', file_grid: str = '', var_lat: str = '', var_lon: str = '',
-                       variables: list = ['TOTECOSYSC', 'TOTSOMC', 'TOTVEGC', 'TLAI', 'GPP', 'TWS']):
+def check_steady_state(name_case: str, 
+                       subperiod: int, 
+                       path_hist: str,
+                       year_start: None | int = None, 
+                       year_end: None | int = None,
+                       glob_thresh: dict = { 
+                            'TOTECOSYSC': 0.02,
+                            'TOTSOMC': 0.02, 
+                            'TOTVEGC': 0.02, 
+                            'TLAI': 0.02, 
+                            'GPP': 0.02, 
+                            'TWS': 0.001 },
+                       agg_method: dict = { 
+                            'TOTECOSYSC': 'sum',
+                            'TOTSOMC': 'sum', 
+                            'TOTVEGC': 'sum', 
+                            'TLAI': 'sum', 
+                            'GPP': 'sum', 
+                            'TWS': 'mean' },
+                       landarea_agg_method: dict = {
+                            'TOTECOSYSC': 'multiply',
+                            'TOTSOMC': 'multiply', 
+                            'TOTVEGC': 'multiply', 
+                            'TLAI': 'divide', 
+                            'GPP': 'multiply', 
+                            'TWS': '' },
+                       var_factor: dict = {
+                            'TOTECOSYSC': 1,
+                            'TOTSOMC': 1, 
+                            'TOTVEGC': 1, 
+                            'TLAI': 1, 
+                            'GPP': 60 * 60 * 24 * 365.25, 
+                            'TWS': 1 },
+                       units: dict = {
+                            'TOTECOSYSC': r'$\mathdefault{g\;C}$', 
+                            'TOTSOMC': r'$\mathdefault{g\;C}$', 
+                            'TOTVEGC': r'$\mathdefault{g\;C}$',
+                            'TLAI': r'$\mathdefault{m^{2}\;m^{2}}$', 
+                            'GPP': r'$\mathdefault{g\;C\;year^{-1}}$', 
+                            'TWS': r'$\mathdefault{m}$' },
+                       relative_area_thresh: float = 3.0, 
+                       cell_thresh: float = 1.0,
+                       magnitudes: dict = {
+                            'TOTECOSYSC': 14, 
+                            'TOTSOMC': 14, 
+                            'TOTVEGC': 14, 
+                            'TLAI': 0, 
+                            'GPP': 0, 
+                            'TWS': 0 },
+                       path_grid: str = '', 
+                       file_grid: str = '', 
+                       var_lat: str = '', 
+                       var_lon: str = '',
+                       variables: list = [
+                            'TOTECOSYSC', 
+                            'TOTSOMC', 
+                            'TOTVEGC', 
+                            'TLAI', 
+                            'GPP', 
+                            'TWS']):
     
     from glob import glob
     import numpy as np
@@ -53,7 +101,7 @@ def check_steady_state(name_case: str, subperiod: int, path_hist: str,
         
         print(f'Check variable: {var}...\n')
         print('Load variable in all sub-periods...\n')
-        var_sub                 = data.variables[var][time_sub,:,:]
+        var_sub                 = data.variables[var][time_sub,:,:] * var_factor[var]
         
         print('Calculate means of each year in each subperiod...\n')
         var_sub_yr_mean         = var_sub.reshape((-1, 12, *lat.shape)).mean(axis = 1)
@@ -64,16 +112,22 @@ def check_steady_state(name_case: str, subperiod: int, path_hist: str,
         delta_map_1             = var_sub_yr_mean_diff[-2]
         
         print('Calculate mean of each year in each subperiod...\n')
-        var_area                = var_sub_yr_mean * landarea
+        if landarea_agg_method[var] == '':
+          var_area              = var_sub_yr_mean
+        else:
+          land_factor           = landarea / np.sum(landarea) if var == 'TLAI' else landarea
+          landarea_agg_func     = getattr(np, landarea_agg_method[var])
+          var_area              = landarea_agg_func(var_sub_yr_mean, land_factor)
 
         print('Adjust units and magnitudes...\n')
         var_area_unit           = var_area * 10**-magnitudes[var]
 
-        print('Calculate global sum time series...\n')
-        var_glob_sum            = var_area_unit.sum(axis = (1,2))
+        print('Calculate global aggregate time series...\n')
+        agg_func                = getattr(np, agg_method[var])
+        var_glob_agg            = agg_func(var_area_unit, axis = (1,2))
         
-        print('Claculate the delta between the sub-periods...\n')
-        var_glob_diff           = np.ma.diff(var_glob_sum / subperiod, axis = 0)
+        print('Calculate the delta between the sub-periods...\n')
+        var_glob_diff           = np.ma.diff(var_glob_agg / subperiod, axis = 0)
 
         print('Check where the delta thresholds were kept...\n')
         mask_threshold          = np.ma.where(np.abs(var_glob_diff) < glob_thresh[var], True, False)
@@ -99,8 +153,8 @@ def check_steady_state(name_case: str, subperiod: int, path_hist: str,
 
         if threshold_year_area is None: 
             print(f'{var} relative land area steady state threshold not reached.')
-            print(f'{percent_landarea_disequil[-1]}% of land area in steady state < {relative_area_thresh}%')
-        else: print(f'{var} relative land area steady state threshold was reached in year {threshold_year_area}.')
+            print(f'{percent_landarea_disequil[-1]}% of land area in steady state > {relative_area_thresh}%')
+        else: print(f'{var} relative land area steady state threshold was reached in year {threshold_year_area}.\n')
 
         with PdfPages(f'spinup_output/spinup_{var}_{name_case}_{time_plot[-1]}.pdf') as pdf:
 
@@ -110,7 +164,7 @@ def check_steady_state(name_case: str, subperiod: int, path_hist: str,
             ax.set_ylabel(f'{unit_prefixes[magnitudes[var]]} {units[var]}')
             ax.set_xlabel('Year')
             ax.grid(which = 'major', color = 'dimgray', visible = True, ls = '--', alpha = 0.6, zorder = 0)
-            ax.plot(np.arange(year_start, year_end, subperiod), var_glob_sum, c = 'darkgreen', ls = '-', lw = 3)
+            ax.plot(np.arange(year_start, year_end, subperiod), var_glob_agg, c = 'darkgreen', ls = '-', lw = 3)
             pdf.savefig()
             plt.close()
 
@@ -182,7 +236,10 @@ def check_steady_state(name_case: str, subperiod: int, path_hist: str,
             plt.close()
 
 
-            fig                 = plt.figure(figsize=(7, 5), dpi = 300, constrained_layout = True)
+            fig                 = plt.figure(figsize=(7, 5), 
+                                             dpi = 300, 
+                                             constrained_layout = True)
+            
             rp                  = crs.RotatedPole(pole_longitude = -162.0,
                                     pole_latitude = 39.25,
                                     globe = crs.Globe(semimajor_axis = 6370000,
@@ -232,9 +289,12 @@ if __name__ == '__main__':
 
     #parser.add_argument('--name', '-n', help = 'Name for your work', type = str)
 
-    check_steady_state(name_case = 'CLM5-EUR0275-BGC_spinup_0001', subperiod = 10,
+    check_steady_state(name_case = 'CLM5-EUR0275-BGC_spinup_0001', 
+                       subperiod = 10,
                        path_hist = '/p/scratch/cjibg31/jibg3105/data/CLM5EUR0275/spinup/history/',
-                       year_start = 0, year_end = 437,
+                       year_start = 438, 
+                       year_end = 833,
                        path_grid = '/p/scratch/cjibg31/jibg3105/CESMDataRoot/InputData/share/domains/',
                        file_grid = 'domain.lnd.CLM5EU3_v4.nc',
-                       var_lat = 'yc', var_lon = 'xc' )
+                       var_lat = 'yc', 
+                       var_lon = 'xc' )

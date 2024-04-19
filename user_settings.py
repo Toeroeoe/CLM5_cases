@@ -93,10 +93,10 @@ CLM5_BGC_EUR_0275_spinup = {
     'hist_vars_grid': ['GPP', 'TLAI', 'TOTECOSYSC', 'TOTECOSYSN', 'TOTSOMC', 'TOTVEGC', 'TWS'],
     'hist_vars_pft': [],
 
-    'year_start': 546,
+    'year_start': 894,
     'month_start': 1,
 
-    'year_end': 605,
+    'year_end': 753,
     'month_end': 12,
 
     'year_start_forcing': 1950,
@@ -115,7 +115,7 @@ CLM5_BGC_EUR_0275_spinup = {
     'file_surf': 'surfdata_EUR-0275_hist_78pfts_Irrig_CMIP6_simyr2000_c230216_GLC2000.nc',
 
     'dir_init': '/p/scratch/cjibg31/jibg3105/data/CLM5EUR0275/spinup/restart/',
-    'file_init': 'CLM5-EUR0275-BGC_spinup_0001_JW.clm2.r.0546-01-01-00000.nc',
+    'file_init': 'CLM5-EUR0275-BGC_spinup_0001_JW.clm2.r.0894-01-01-00000.nc',
 
     'dir_forcing': '/p/scratch/cjibg31/jibg3105/CESMDataRoot/InputData/Forcings/ERA5_EUR-0275/spinup/',
 
@@ -150,7 +150,7 @@ CLM5_BGC_EUR_0275_spinup = {
 CLM5_BGC_EUR_0275_ML_west = {
 
     'dir_script': '/p/project/cjibg31/jibg3105/clm5.0/cime/scripts',
-    'name': 'CLM5_BGC_EUR_0275_ML_west_0003_JW',
+    'name': 'CLM5_BGC_EUR_0275_ML_west_0000_JW',
     'compset': 'I2000Clm50BgcCruGs',
     'n_cpu': 384,
     'ncpl': 24,
@@ -167,10 +167,10 @@ CLM5_BGC_EUR_0275_ML_west = {
     'hist_vars_grid': ['GPP', 'TLAI', 'TOTECOSYSC', 'TOTECOSYSN', 'TOTSOMC', 'TOTVEGC', 'TWS'],
     'hist_vars_pft': [],
 
-    'year_start': 0,
+    'year_start': 2019,
     'month_start': 1,
 
-    'year_end': 23,
+    'year_end': 2118,
     'month_end': 12,
 
     'year_start_forcing': 1995,
@@ -188,8 +188,8 @@ CLM5_BGC_EUR_0275_ML_west = {
     'dir_surf': '/p/scratch/cjibg31/jibg3105/CESMDataRoot/InputData/lnd/clm2/surfdata_map/',
     'file_surf': 'surfdata_CLM5EU3_FATES_west.nc',
 
-    'dir_init': '/p/scratch/cjibg31/jibg3105/CESMDataRoot/InputData/lnd/clm2/initdata_map/CLM5EUR0275_ML/',
-    'file_init': 'CLM5EU3_BGC_west_ml_pft_soil.r_003.nc',
+    'dir_init': '/p/scratch/cjibg31/jibg3105/data/CLM5EUR0275/ML_spinup/not_coldstart/restart/west',
+    'file_init': 'CLM5_BGC_EUR_0275_ML_west_0000.clm2.r.2019-01-01-00000.nc',
 
     'dir_forcing': '/p/scratch/cjibg31/jibg3105/CESMDataRoot/InputData/Forcings/CLM5EU3_west/',
 
@@ -224,7 +224,7 @@ CLM5_BGC_EUR_0275_ML_west = {
 CLM5_BGC_EUR_0275_ML_east= {
 
     'dir_script': '/p/project/cjibg31/jibg3105/clm5.0/cime/scripts',
-    'name': 'CLM5_BGC_EUR_0275_ML_east_0003_JW',
+    'name': 'CLM5_BGC_EUR_0275_ML_east_0000_JW',
     'compset': 'I2000Clm50BgcCruGs',
     'n_cpu': 1024,
     'ncpl': 24,
@@ -241,10 +241,10 @@ CLM5_BGC_EUR_0275_ML_east= {
     'hist_vars_grid': ['GPP', 'TLAI', 'TOTECOSYSC', 'TOTECOSYSN', 'TOTSOMC', 'TOTVEGC', 'TWS'],
     'hist_vars_pft': [],
 
-    'year_start': 0,
+    'year_start': 2019,
     'month_start': 1,
 
-    'year_end': 23,
+    'year_end': 2118,
     'month_end': 12,
 
     'year_start_forcing': 1995,
@@ -262,8 +262,8 @@ CLM5_BGC_EUR_0275_ML_east= {
     'dir_surf': '/p/scratch/cjibg31/jibg3105/CESMDataRoot/InputData/lnd/clm2/surfdata_map/',
     'file_surf': 'surfdata_CLM5EU3_FATES_east.nc',
 
-    'dir_init': '/p/scratch/cjibg31/jibg3105/CESMDataRoot/InputData/lnd/clm2/initdata_map/CLM5EUR0275_ML',
-    'file_init': 'CLM5EU3_BGC_east_ml_pft_soil.r_003.nc',
+    'dir_init': '/p/scratch/cjibg31/jibg3105/data/CLM5EUR0275/ML_spinup/not_coldstart/restart/east/',
+    'file_init': 'CLM5_BGC_EUR_0275_ML_east_0000.clm2.r.2019-01-01-00000.nc',
 
     'dir_forcing': '/p/scratch/cjibg31/jibg3105/CESMDataRoot/InputData/Forcings/CLM5EU3_east/',
 

@@ -24,7 +24,7 @@ class case:
     To do:
     - Test / adapt for cases with default forcings (no stream files)
     - Test / adapt for single-point cases
-
+    -
     """
 
     dir_script: str 
@@ -241,14 +241,14 @@ class case:
         dt_limit            = (24 + self.time_resolution_forcing_hours) / self.time_resolution_forcing_hours
 
         if self.hist_vars_pft:
+            hist_vars_pft_0 = "'" + "', '".join(self.hist_vars_pft) + "'"
+            hist_vars_pft_1 = f'hist_dov2xy(2) = .false.'
+            hist_vars_pft_2 = f"hist_type1d_pertape(2) = 'PFTS'"
+            hist_vars_pft_3 = f'hist_nhtfrq(2) = {self.hist_frq_pft}'
+            hist_vars_pft_4 = f'hist_mfilt(2) = {self.hist_flt_pft}'
 
-            hist_vars_pft_0 = f'hist_dov2xy(2) = .false.'
-            hist_vars_pft_1 = f"hist_type1d_pertape(2) = 'PFTS'"
-            hist_vars_pft_2 = f'hist_nhtfrq(2) = {self.hist_frq_pft}'
-            hist_vars_pft_3 = f'nhist_mfilt(2) = {self.hist_flt_pft}'
-            hist_vars_pft_4 = "'" + "', '".join(self.hist_vars_pft) + "'"
-
-            hist_pft_str    = '\n'.join([hist_vars_pft_0, 
+            hist_pft_str    = 'hist_fincl2 = ' + \
+                                '\n'.join([hist_vars_pft_0, 
                                         hist_vars_pft_1,
                                         hist_vars_pft_2,
                                         hist_vars_pft_3,
