@@ -17,3 +17,6 @@ You can then turn off / on the steps you want the script to do in the `run_CLM5_
 When done, simply execute `python run_CLM5_case.py`.
 
 Corrections, comments, suggestions are welcome.
+
+# CLM5EU3_GPP-ET_GMD_paper
+The corresponding configurations are in `cases_CLM5EU3_split.py`. Please refer to the `CLM5.py` base class for adjustments and for running the case `run_CLM5_case_split.py`.
