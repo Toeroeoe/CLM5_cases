@@ -62,7 +62,6 @@ class case:
 
     custom_forcings: bool       = True
 
-
     dir_domain_atm: None | str  = None
     file_domain_atm: None | str = None
 
@@ -207,13 +206,14 @@ class case:
         
         for k, v in keys_config.items():
             
-            print(f'Set {k}...')
 
             if v is None: v = 'none'
             if k in ('CLM_FORCE_COLDSTART', 'CLM_ACCELERATED_SPINUP') and v is False: v = 'off'
             if k in ('CLM_FORCE_COLDSTART', 'CLM_ACCELERATED_SPINUP') and v is True: v = 'on'
             if k in ('DOUT_S', 'CONTINUE_RUN') and v is False: v = 'FALSE'
             if k in ('DOUT_S', 'CONTINUE_RUN') and v is True: v = 'TRUE'
+
+            print(f'Set {k} to: {v}...')
 
             subprocess.call([f'{dir_setup}/xmlchange',
                          f'{k}={v}'], cwd = dir_setup)

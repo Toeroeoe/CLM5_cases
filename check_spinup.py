@@ -40,7 +40,7 @@ def check_steady_state(name_case: str,
                             'TOTVEGC': r'$\mathdefault{g\;C}$',
                             'TLAI': r'$\mathdefault{m^{2}\;m^{2}}$', 
                             'GPP': r'$\mathdefault{g\;C\;year^{-1}}$', 
-                            'TWS': r'$\mathdefault{m}$' },
+                            'TWS': r'$\mathdefault{m}$'},
                        relative_area_thresh: float = 3.0, 
                        cell_thresh: float = 1.0,
                        magnitudes: dict = {
@@ -50,10 +50,10 @@ def check_steady_state(name_case: str,
                             'TLAI': 0, 
                             'GPP': 0, 
                             'TWS': 0 },
-                       path_grid: str = '', 
-                       file_grid: str = '', 
-                       var_lat: str = '', 
-                       var_lon: str = '',
+                       path_grid: str = '.', 
+                       file_grid: str = '.', 
+                       var_lat: str = 'xc', 
+                       var_lon: str = 'yc',
                        variables: list = [
                             'TOTECOSYSC', 
                             'TOTSOMC', 
@@ -158,7 +158,7 @@ def check_steady_state(name_case: str,
 
         with PdfPages(f'spinup_output/spinup_{var}_{name_case}_{time_plot[-1]}.pdf') as pdf:
 
-            fig                 = plt.figure(figsize=(5, 5), dpi = 300)
+            fig                 = plt.figure(figsize=(6, 5), dpi = 300)
             ax                  = fig.add_subplot(111, frameon = False)
             ax.set_title(var)
             ax.set_ylabel(f'{unit_prefixes[magnitudes[var]]} {units[var]}')
@@ -168,7 +168,7 @@ def check_steady_state(name_case: str,
             pdf.savefig()
             plt.close()
 
-            fig                 = plt.figure(figsize=(5, 5), dpi = 300)
+            fig                 = plt.figure(figsize=(6, 5), dpi = 300)
             ax                  = fig.add_subplot(111, frameon = False)
             ax.set_title(f'\u0394{var}')
             ax.set_ylabel(f'\u0394 {unit_prefixes[magnitudes[var]]} {units[var]} ' + r'$\mathdefault{year^{-1}}$')
@@ -180,7 +180,7 @@ def check_steady_state(name_case: str,
             pdf.savefig()
             plt.close()
 
-            fig                 = plt.figure(figsize=(5, 5), dpi = 300)
+            fig                 = plt.figure(figsize=(6, 5), dpi = 300)
             ax                  = fig.add_subplot(111, frameon = False)
             ax.set_title(f'% of total land area in {var} disequilibrium')
             ax.set_ylabel(r'$\mathdefault{\%}$')
@@ -192,7 +192,7 @@ def check_steady_state(name_case: str,
             plt.close()
 
 
-            fig                 = plt.figure(figsize=(7, 5), dpi = 300, constrained_layout = True)
+            fig                 = plt.figure(figsize=(6, 5), dpi = 300, constrained_layout = True)
             rp                  = crs.RotatedPole(pole_longitude = -162.0,
                                     pole_latitude = 39.25,
                                     globe = crs.Globe(semimajor_axis = 6370000,
@@ -283,18 +283,13 @@ def check_steady_state(name_case: str,
 
 if __name__ == '__main__':
 
-    #from argparse import ArgumentParser
-    
-    #parser                          = ArgumentParser()
-
-    #parser.add_argument('--name', '-n', help = 'Name for your work', type = str)
 
     check_steady_state(name_case = 'CLM5-EUR0275-BGC_spinup_0001', 
                        subperiod = 10,
                        path_hist = '/p/scratch/cjibg31/jibg3105/data/CLM5EUR0275/spinup/history/',
                        year_start = 438, 
-                       year_end = 833,
-                       path_grid = '/p/scratch/cjibg31/jibg3105/CESMDataRoot/InputData/share/domains/',
-                       file_grid = 'domain.lnd.CLM5EU3_v4.nc',
+                       year_end = 1249,
+                       path_grid = '/p/scratch/cjibg31/jibg3105/CESMDataRoot/InputData/share/domains/EUR-0275/domain/',
+                       file_grid = 'domain.lnd.EUR-0275_final.nc',
                        var_lat = 'yc', 
                        var_lon = 'xc' )

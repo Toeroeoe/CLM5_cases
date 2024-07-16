@@ -18,10 +18,10 @@ CLM5_BGC_EUR_0275_spinup = {
     'hist_vars_grid': ['GPP', 'TLAI', 'TOTECOSYSC', 'TOTECOSYSN', 'TOTSOMC', 'TOTVEGC', 'TWS'],
     'hist_vars_pft': [],
 
-    'year_start': 954,
+    'year_start': 1194,
     'month_start': 1,
 
-    'year_end': 1014,
+    'year_end': 1253,
     'month_end': 12,
 
     'year_start_forcing': 1950,
@@ -40,7 +40,7 @@ CLM5_BGC_EUR_0275_spinup = {
     'file_surf': 'surfdata_EUR-0275_hist_78pfts_Irrig_CMIP6_simyr2000_c230216_GLC2000.nc',
 
     'dir_init': '/p/scratch/cjibg31/jibg3105/data/CLM5EUR0275/spinup/restart/',
-    'file_init': 'CLM5-EUR0275-BGC_spinup_0001_JW.clm2.r.0954-01-01-00000.nc',
+    'file_init': 'CLM5-EUR0275-BGC_spinup_0001_JW.clm2.r.1194-01-01-00000.nc',
 
     'dir_forcing': '/p/scratch/cjibg31/jibg3105/CESMDataRoot/InputData/Forcings/ERA5_EUR-0275/spinup/',
 
