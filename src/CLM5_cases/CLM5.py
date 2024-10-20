@@ -5,6 +5,12 @@
 # Spinup functionality
 
 from dataclasses import dataclass, field
+import os
+import subprocess
+import shutil
+import numpy as np
+import mmap
+
 
 @dataclass
 class case:
@@ -96,9 +102,6 @@ class case:
         To create a case directory.
 
         """
-        import os
-        import subprocess
-        import shutil
 
         if delete: 
 
@@ -131,9 +134,6 @@ class case:
         To setup the case and create respective generic namelist files.
 
         """
-
-        import os
-        import subprocess
 
         dir_setup           = f'{self.dir_script}/{self.name}'
 
@@ -168,9 +168,6 @@ class case:
         """
 
         print('\nAdjust case configuration...\n')
-
-        import subprocess
-        import numpy as np
 
         dir_setup           = f'{self.dir_script}/{self.name}'
 
@@ -309,8 +306,6 @@ class case:
         
         print('\nCreate case stream files...\n')
 
-        import subprocess
-
         dir_setup           = f'{self.dir_script}/{self.name}'
 
         year_files          = [f'{y}-{m:02d}.nc' for y in range(self.year_start_forcing, self.year_end_forcing + 1) for m in range(1,13)]
@@ -368,9 +363,6 @@ class case:
 
         """
 
-        import subprocess
-        import mmap
-
         dir_setup           = f'{self.dir_script}/{self.name}'
 
         with open(f'{dir_setup}/CaseStatus', 'r') as file, \
@@ -403,8 +395,6 @@ class case:
         Submit your case for simulation with the case.submit script.
         
         """
-
-        import subprocess
 
         dir_setup           = f'{self.dir_script}/{self.name}'
 

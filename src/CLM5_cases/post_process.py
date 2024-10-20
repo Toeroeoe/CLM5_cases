@@ -1,12 +1,13 @@
 
+import os
 import xarray as xr
 import numpy as np
 from glob import glob
 from my_.files.handy import check_file_exists, create_dirs
 
 
-def join_resample_drop(dir_west: str,
-                       dir_east: str,
+def join_resample_drop(dir_west: os.PathLike,
+                       dir_east: os.PathLike,
                        files_west: str = '*.nc',
                        files_east: str = '*.nc',
                        path_out: str = 'out_join/',
@@ -67,8 +68,8 @@ def join_resample_drop(dir_west: str,
                          unlimited_dims = ['time'])
 
 
-def join_west_east(dir_west: str,
-                   dir_east: str,
+def join_west_east(dir_west: os.PathLike,
+                   dir_east: os.PathLike,
                    files_west: str = '*.nc',
                    files_east: str = '*.nc',
                    path_out: str = 'out_join/',
@@ -112,7 +113,7 @@ def join_west_east(dir_west: str,
                          unlimited_dims = ['time'])
         
 
-def resample(path_hist: str,
+def resample(path_hist: os.PathLike,
              files_hist: str = '*.nc',
              dst_resolution: str = 'D',
              method: str = 'mean',
@@ -144,7 +145,7 @@ def resample(path_hist: str,
                          unlimited_dims = ['time'])
 
 
-def drop_vars(path_hist: str,
+def drop_vars(path_hist: os.PathLike,
               files_hist: str = '*.nc',
               drop_vars: list = ['ZSOI', 
                                  'DZSOI',
@@ -181,30 +182,33 @@ def drop_vars(path_hist: str,
 
 if __name__ == '__main__':
 
-    dir_west = '/p/scratch/cjibg31/jibg3105/data/CLM5EUR0275/ML_spinup/not_coldstart/west/history/'
+    dir_west = '/p/scratch/cjibg31/jibg3105/data/CLM5EU3/007/west/'
     files_west = '*.nc'
 
-    dir_east = '/p/scratch/cjibg31/jibg3105/data/CLM5EUR0275/ML_spinup/not_coldstart/east/history/'
+    dir_east = '/p/scratch/cjibg31/jibg3105/data/CLM5EU3/007/east/'
     files_east = '*.nc'
 
-    path_out = '/p/scratch/cjibg31/jibg3105/data/CLM5EUR0275/ML_spinup/not_coldstart/join/'
-    time_res = '8D'
+    path_out = '/p/scratch/cjibg31/jibg3105/data/CLM5EU3/007/join_d/'
+    time_res = 'D'
 
-    #sel_vars = ['GPP', 
-    #            'QFLX_EVAP_TOT',
-    #            'QFLX_EVAP_GRND',
-    #            'QFLX_EVAP_VEG',
-    #            'BTRANMN',
-    #            'GSSHA',
-    #            'QOVER',
-    #            'H2OSOI',
-    #            'ZWT']
+    sel_vars = ['GPP', 
+                'QFLX_EVAP_TOT',
+                'QFLX_EVAP_GRND',
+                'QFLX_EVAP_VEG',
+                'BTRANMN',
+                'GSSHA',
+                'QOVER',
+                'H2OSOI',
+                'ZWT',
+                'Qh',
+                'FGR',
+                'Rnet']
     
     join_resample_drop(dir_west,
                    dir_east,
                    files_west,
                    files_east,
                    path_out,
-                   sel_vars = None,
+                   sel_vars = sel_vars,
                    agg_method = 'mean',
                    time_res = time_res)
