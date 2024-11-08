@@ -2,8 +2,9 @@
 CLM5_BGC_EUR_0275_transition = {
 
     'dir_script': '/p/project/cjibg31/jibg3105/clm5.0/cime/scripts',
-    'name': 'CLM5-EUR0275-BGC_spinup_0001_JR',
+    'name': 'CLM5-EUR0275-BGC_transition_0001_JR',
     'compset': '2000_DATM%CRUv7_CLM50%BGC-CROP_SICE_SOCN_MOSART_SGLC_SWAV',
+    'partition': 'dc-cpu',
     'n_cpu': 1024,
     'ncpl': 24,
     'wallclock': '5:00:00',
@@ -101,7 +102,7 @@ CLM5_BGC_EUR_0275_transition = {
 			            'H2OSNO', # snow depth (liq. water)
                         'H2OSOI', # volumentric soil water
                         'RH', # relative humidity
-                        'VPD', # Vapour pressure deficit
+                        #'VPD', # Vapour pressure deficit
                         'TWS', # total water storage
                         'ZWT', # table water depth
                         'SOILPSI', # soil water potential
@@ -112,16 +113,16 @@ CLM5_BGC_EUR_0275_transition = {
 
     'hist_vars_pft': [],
 
-    'year_start': 1960,
+    'year_start': 1970,
     'month_start': 1,
 
-    'year_end': 1969,
+    'year_end': 1989,
     'month_end': 12,
 
-    'year_start_forcing': 1960,
+    'year_start_forcing': 1970,
     'month_start_forcing': 1,
 
-    'year_end_forcing': 1969,
+    'year_end_forcing': 1989,
     'month_end_forcing': 12,
     
     'dir_domain_lnd': '/p/scratch/cjibg31/jibg3105/CESMDataRoot/InputData/share/domains/EUR-0275/domain/',
@@ -169,8 +170,9 @@ CLM5_BGC_EUR_0275_transition = {
 CLM5_BGC_EUR_0275_transition_control = {
 
     'dir_script': '/p/project/cjibg31/jibg3105/clm5.0/cime/scripts',
-    'name': 'CLM5-EUR0275-BGC_spinup_0001_JR_control',
+    'name': 'CLM5-EUR0275-BGC_transition_0001_JR_control',
     'compset': '2000_DATM%CRUv7_CLM50%BGC-CROP_SICE_SOCN_MOSART_SGLC_SWAV',
+    'partition': 'dc-cpu',
     'n_cpu': 1024,
     'ncpl': 24,
     'wallclock': '5:00:00',
@@ -268,7 +270,7 @@ CLM5_BGC_EUR_0275_transition_control = {
 			            'H2OSNO', # snow depth (liq. water)
                         'H2OSOI', # volumentric soil water
                         'RH', # relative humidity
-                        'VPD', # Vapour pressure deficit
+                        #'VPD', # Vapour pressure deficit
                         'TWS', # total water storage
                         'ZWT', # table water depth
                         'SOILPSI', # soil water potential
@@ -282,13 +284,13 @@ CLM5_BGC_EUR_0275_transition_control = {
     'year_start': 1960,
     'month_start': 1,
 
-    'year_end': 1969,
+    'year_end': 1989,
     'month_end': 12,
 
     'year_start_forcing': 1960,
     'month_start_forcing': 1,
 
-    'year_end_forcing': 1969,
+    'year_end_forcing': 1989,
     'month_end_forcing': 12,
     
     'dir_domain_lnd': '/p/scratch/cjibg31/jibg3105/CESMDataRoot/InputData/share/domains/EUR-0275/domain/',

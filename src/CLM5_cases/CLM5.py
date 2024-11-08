@@ -36,6 +36,7 @@ class case:
     dir_script: str 
     name: str
     compset: str
+    partition: str
     n_cpu: int
     year_start: int
     year_end: int
@@ -199,7 +200,7 @@ class case:
                                 'CCSM_CO2_PPMV': self.ppmv_co2,
                                 'DATM_CO2_TSERIES': self.series_co2,
                                 'CONTINUE_RUN': self.continue_run,
-                                }
+                                'JOB_QUEUE': self.partition,}
         
         for k, v in keys_config.items():
             
