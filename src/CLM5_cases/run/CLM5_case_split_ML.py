@@ -1,5 +1,5 @@
 
-from CLM5_cases.cases import cases_CLM5EU3_split_ML
+from CLM5_cases.cases import CLM5EU3_split_ML
 from CLM5_cases.CLM5 import case
 
 
@@ -12,7 +12,7 @@ do_submit           = True
 
 
 # Main
-my_case = case(**getattr(cases_CLM5EU3_split_ML, 
+my_case = case(**getattr(CLM5EU3_split_ML, 
                          name_case))
 
 my_case.create(delete = do_case_delete)

@@ -74,7 +74,7 @@ def check_steady_state(name_case: str,
 
     unit_prefixes               = {15: 'Peta', 14: '*10^2 Tera', 13: '*10^1 Tera', 12: 'Tera', 9: 'Giga', 0: ''}
 
-    file_data                   = [glob(f'{path_hist}/{name_case}*.clm2.h0.{yy:04d}*')[0] for yy in range(year_start, year_end + 1)]
+    file_data                   = [glob(f'{path_hist}/{name_case}*.clm2.h0.{yy:04d}-{mm:02d}*')[0] for yy in range(year_start, year_end + 1) for mm in range(1,13)]
 
     data_grid                   = Dataset(f'{path_grid}/{file_grid}')
 

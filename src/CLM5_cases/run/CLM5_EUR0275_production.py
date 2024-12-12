@@ -1,10 +1,10 @@
 
-from CLM5_cases.cases import cases_CLM5_EUR0275_transition
+from CLM5_cases.cases import CLM5_EUR0275_production
 from CLM5_cases.CLM5 import case
 
 
 # Settings
-name_case           = 'CLM5_BGC_EUR_0275_transition'
+name_case           = 'CLM5_BGC_EUR_0275_0001'
 do_case_delete      = False
 do_setup_clean      = False
 do_build_clean      = False
@@ -12,7 +12,7 @@ do_submit           = True
 
 
 # Main
-my_case = case(**getattr(cases_CLM5_EUR0275_transition, 
+my_case = case(**getattr(CLM5_EUR0275_production, 
                          name_case))
 
 my_case.create(delete = do_case_delete)

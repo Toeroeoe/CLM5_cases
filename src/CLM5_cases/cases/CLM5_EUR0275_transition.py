@@ -113,13 +113,13 @@ CLM5_BGC_EUR_0275_transition = {
 
     'hist_vars_pft': [],
 
-    'year_start': 1970,
+    'year_start': 1960,
     'month_start': 1,
 
     'year_end': 1989,
     'month_end': 12,
 
-    'year_start_forcing': 1970,
+    'year_start_forcing': 1960,
     'month_start_forcing': 1,
 
     'year_end_forcing': 1989,
@@ -330,6 +330,6 @@ CLM5_BGC_EUR_0275_transition_control = {
 
     'AD_spin_up': False,
 
-    'continue_run': False
+    'continue_run': False,
 
 }
