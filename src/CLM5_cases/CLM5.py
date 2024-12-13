@@ -72,6 +72,8 @@ class case:
     dir_domain_atm: None | str = None
     file_domain_atm: None | str = None
 
+    domain_atm_vars: None | dict[str, str] = None
+
     dir_init: str | None = None
     file_init: str | None = None
 
@@ -322,31 +324,46 @@ class case:
 
         dir_setup = f'{self.dir_script}/{self.name}'
 
-        year_files = [f'{y}-{m:02d}.nc' for y in range(self.year_start_forcing, self.year_end_forcing + 1) for m in range(1,13)]
+        year_files = []
+        
+        for iy, y in enumerate(range(self.year_start_forcing, self.year_end_forcing + 1)):
+
+            m0 = self.month_start if iy == 0 else 0
+            m1 = self.month_end + 1 if y == self.year_end_forcing else 13  
+
+            for m in range (m0, m1):
+
+                year_files.append(f'\t\t{y}-{m:02d}.nc')
 
         if self.vars_forcing is None: self.vars_forcing = {}
+        if self.domain_atm_vars is None : self.domain_atm_vars = {}
 
         keys_solar = {k: v for k, v in self.vars_forcing.items() if k == 'swdn'}
         keys_precn = {k: v for k, v in self.vars_forcing.items() if k == 'precn'}
         keys_tpqw = {k: v for k, v in self.vars_forcing.items() if k not in ['swdn', 'precn']}
 
-        str_solar = '\n'.join([f'{v}\t{k}' for k, v in keys_solar.items()])
-        str_precn = '\n'.join([f'{v}\t{k}' for k, v in keys_precn.items()])
-        str_tpqw = '\n'.join([f'{v}\t{k}' for k, v in keys_tpqw.items()])
+        str_solar = '\n'.join([f'\t\t{v: <10}{k}' for k, v in keys_solar.items()])
+        str_precn = '\n'.join([f'\t\t{v: <10}{k}' for k, v in keys_precn.items()])
+        str_tpqw = '\n'.join([f'\t\t{v: <10}{k}' for k, v in keys_tpqw.items()])
 
-        keys_streams_solar = {'dir_domain': self.dir_domain_atm,
+        str_atm_domain_vars = '\n'.join([f'\t\t{v: <10}{k}' for k, v in self.domain_atm_vars.items()])
+
+        keys_streams_solar = {'atm_domain_vars': str_atm_domain_vars,
+                              'dir_domain': self.dir_domain_atm,
                               'file_domain': self.file_domain_atm, 
                               'dir_forcing': self.dir_forcing,
                               'year_files': '\n'.join(year_files),
                               'vars_solar': str_solar}
         
-        keys_streams_precn = {'dir_domain': self.dir_domain_atm,
+        keys_streams_precn = {'atm_domain_vars': str_atm_domain_vars,
+                              'dir_domain': self.dir_domain_atm,
                               'file_domain': self.file_domain_atm, 
                               'dir_forcing': self.dir_forcing,
                               'year_files': '\n'.join(year_files),
                               'vars_precn': str_precn}
         
-        keys_streams_tpqw = {'dir_domain': self.dir_domain_atm,
+        keys_streams_tpqw = {'atm_domain_vars': str_atm_domain_vars,
+                             'dir_domain': self.dir_domain_atm,
                              'file_domain': self.file_domain_atm, 
                              'dir_forcing': self.dir_forcing,
                              'year_files': '\n'.join(year_files),
@@ -371,13 +388,6 @@ class case:
         subprocess.call(f'cp user_datm.streams.* Buildconf/datmconf/', shell = True, cwd = dir_setup)
 
         print('\nCase stream files created.\n')
-
-        if self.vars_forcing is None: return
-
-        keys_solar = {k: v for k, v in self.vars_forcing.items() if k == 'swdn'}
-        keys_precn = {k: v for k, v in self.vars_forcing.items() if k == 'precn'}
-        keys_tpqw = {k: v for k, v in self.vars_forcing.items() if k not in ['swdn', 'precn']}
-
 
 
     def build(self, clean: bool = False):

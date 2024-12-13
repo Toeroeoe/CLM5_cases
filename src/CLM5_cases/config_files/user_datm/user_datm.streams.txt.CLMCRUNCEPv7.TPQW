@@ -5,11 +5,7 @@
    </dataSource>
    <domainInfo>
       <variableNames>
-        time    time
-        xc      lon 
-        yc      lat
-        area    area
-        mask    mask
+atm_domain_vars
       </variableNames>
       <filePath>
         dir_domain
@@ -20,13 +16,13 @@
    </domainInfo>
    <fieldInfo>
       <variableNames>
-        vars_tpqw
+vars_tpqw
       </variableNames>
       <filePath>
         dir_forcing
       </filePath>
       <fileNames>
-		    year_files
+year_files
       </fileNames>
       <offset>
         0
