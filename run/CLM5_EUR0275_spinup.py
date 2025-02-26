@@ -1,6 +1,6 @@
 
-from CLM5_cases.cases import CLM5_EUR0275_spinup
-from CLM5_cases.CLM5 import case
+from cases import CLM5_EUR0275_spinup
+from CLM5 import case
 
 
 # Settings
