@@ -9,6 +9,7 @@ import os
 import subprocess
 import shutil
 import numpy as np
+import pandas as pd
 import mmap
 
 
@@ -74,6 +75,11 @@ class case:
 
     domain_atm_vars: None | dict[str, str] = None
 
+    dir_domain_co2: None | str = None
+    file_domain_co2: None | str = None
+
+    domain_co2_vars: None | dict[str, str] = None
+
     dir_init: str | None = None
     file_init: str | None = None
 
@@ -82,6 +88,11 @@ class case:
     vars_forcing: dict | None = None
 
     mode_co2: None | str = None 
+    
+    dir_co2: None | str = None
+    file_co2: None | str = None
+
+    vars_co2: None | dict[str, str] = None
 
     type_co2: str = 'constant' 
     ppmv_co2: float = 379.0
@@ -182,13 +193,16 @@ class case:
 
         dir_setup = f'{self.dir_script}/{self.name}'
 
-        n_months = 12 * (self.year_end - self.year_start) - (24 - (self.month_start + self.month_end))
+
+
+        n_months = (np.datetime64(f'{self.year_end}-{self.month_end:>02}') - \
+                    np.datetime64(f'{self.year_start}-{self.month_start:>02}')) / np.timedelta64(1, 'M')
 
         resubmit = (np.ceil(n_months / self.months_per_wallclock) - 1).astype(int)
 
-        keys_config = {'ATM_DOMAIN_PATH': self.dir_domain_atm,
+        keys_config = {'ATM_DOMAIN_PATH': self.dir_domain_lnd,
                        'LND_DOMAIN_PATH': self.dir_domain_lnd,
-                       'ATM_DOMAIN_FILE': self.file_domain_atm,
+                       'ATM_DOMAIN_FILE': self.file_domain_lnd,
                        'LND_DOMAIN_FILE': self.file_domain_lnd,
                        'DATM_MODE': self.mode_datm,
                        'DATM_CLMNCEP_YR_ALIGN': self.year_start_forcing,
@@ -246,7 +260,7 @@ class case:
 
         hist_vars_grid = "'" + "', '".join(self.hist_vars_grid) + "'"
 
-        dt_limit = (24 + self.time_resolution_forcing_hours) / self.time_resolution_forcing_hours
+        dt_limit = ((24 + self.time_resolution_forcing_hours) / self.time_resolution_forcing_hours) + 1
 
         if self.hist_vars_pft:
             hist_vars_pft_0 = "'" + "', '".join(self.hist_vars_pft) + "'"
@@ -337,6 +351,8 @@ class case:
 
         if self.vars_forcing is None: self.vars_forcing = {}
         if self.domain_atm_vars is None : self.domain_atm_vars = {}
+        if self.domain_co2_vars is None : self.domain_co2_vars = {}
+        if self.vars_co2 is None: self.vars_co2 = {}
 
         keys_solar = {k: v for k, v in self.vars_forcing.items() if k == 'swdn'}
         keys_precn = {k: v for k, v in self.vars_forcing.items() if k == 'precn'}
@@ -345,8 +361,10 @@ class case:
         str_solar = '\n'.join([f'\t\t{v: <10}{k}' for k, v in keys_solar.items()])
         str_precn = '\n'.join([f'\t\t{v: <10}{k}' for k, v in keys_precn.items()])
         str_tpqw = '\n'.join([f'\t\t{v: <10}{k}' for k, v in keys_tpqw.items()])
+        str_co2 = '\n'.join([f'\t\t{v: <10}{k}' for k, v in self.vars_co2.items()])
 
         str_atm_domain_vars = '\n'.join([f'\t\t{v: <10}{k}' for k, v in self.domain_atm_vars.items()])
+        str_co2_domain_vars = '\n'.join([f'\t\t{v: <10}{k}' for k, v in self.domain_co2_vars.items()])
 
         keys_streams_solar = {'atm_domain_vars': str_atm_domain_vars,
                               'dir_domain': self.dir_domain_atm,
@@ -368,6 +386,13 @@ class case:
                              'dir_forcing': self.dir_forcing,
                              'year_files': '\n'.join(year_files),
                              'vars_tpqw': str_tpqw}
+
+        keys_streams_co2 = {'co2_domain_vars': str_co2_domain_vars,
+                             'dir_domain': self.dir_domain_co2,
+                             'file_domain': self.file_domain_co2, 
+                             'dir_co2': self.dir_co2,
+                             'file_co2': self.file_co2,
+                             'vars_co2': str_co2}
         
         self.search_replace('config_files/user_datm/', 
                             'user_datm.streams.txt.CLMCRUNCEPv7.Precip', 
@@ -382,6 +407,11 @@ class case:
         self.search_replace('config_files/user_datm/', 
                             'user_datm.streams.txt.CLMCRUNCEPv7.TPQW', 
                             keys_streams_tpqw, 
+                            dir_setup)
+        
+        self.search_replace('config_files/user_datm/', 
+                            'user_datm.streams.txt.co2tseries.20tr', 
+                            keys_streams_co2, 
                             dir_setup)
 
         subprocess.call(f'{dir_setup}/preview_namelists', cwd = dir_setup)
@@ -406,7 +436,7 @@ class case:
 
                 print('Case was already built. Clean?')
                 
-                return
+                if not clean: return
 
         if clean:
 

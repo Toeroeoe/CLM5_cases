@@ -1,13 +1,13 @@
 
-CLM5_BGC_EUR_0275_0001 = {
+scenic_PD_prod = {
 
     'dir_script': '/p/project/cjibg31/jibg3105/clm5.0/cime/scripts',
-    'name': 'CLM5-EUR0275-BGC_0001_JR',
+    'name': 'CLM5-EUR0275-BGC_SCENIC_PD_prod_JR',
     'compset': '2000_DATM%CRUv7_CLM50%BGC-CROP_SICE_SOCN_MOSART_SGLC_SWAV',
     'partition': 'dc-cpu',
     'n_cpu': 1024,
-    'ncpl': 24,
-    'wallclock': '5:00:00',
+    'ncpl': 48,
+    'wallclock': '9:00:00',
     'months_per_wallclock': 12,
     'dir_output': '/p/scratch/cjibg31/jibg3105/CESMDataRoot/CaseOutputs/',
     
@@ -18,9 +18,9 @@ CLM5_BGC_EUR_0275_0001 = {
     'mode_datm': 'CLMCRUNCEPv7',
     'hist_vars_grid': [
                         ### Carbon and nitrogen
-                        'DISPVEGC', # displayed veg carbon, excluding storage and cpool
-                        'DISPVEGN', # displayed vegetation nitrogen
-                        'DOWNREG',  # fractional reduction in GPP due to N limitation
+                        #'DISPVEGC', # displayed veg carbon, excluding storage and cpool
+                        #'DISPVEGN', # displayed vegetation nitrogen
+                        #'DOWNREG',  # fractional reduction in GPP due to N limitation
                         'ER', # Ecosystem respiration
                         'GPP', # Gross primary production
                         'GROSS_NMIN', # gross rate of N mineralization
@@ -48,11 +48,11 @@ CLM5_BGC_EUR_0275_0001 = {
 
                         ## Vegetation function
                         'TLAI', # Total leaf-area-index
-                        'TSAI', # total stem-area-index
+                        #'TSAI', # total stem-area-index
                         #'BTRAN', # beta factor transpiration down regulation
                         'BTRANMN', # daily minimum beta transpiration factor
-                        'GSSHA', # stomatal conductance (shaded leaf)
-                        'GSSUN', # stomatal conductance (sunlit leaf)
+                        #'GSSHA', # stomatal conductance (shaded leaf)
+                        #'GSSUN', # stomatal conductance (sunlit leaf)
                         
                         ## Radiation
 			            'FSM', # Snow melt heat flux
@@ -80,10 +80,10 @@ CLM5_BGC_EUR_0275_0001 = {
                         ## Snow
                         'FSNO', # fraction snow cover
                         'SNOWDP', # snow height
-                        'SNOWICE', # snow ice
+                        #'SNOWICE', # snow ice
                         'SNOTTOPL', # snow temperature top layer
-                        'SNOWLIQ', # snow liquid water
-                        'QICE', # Ice growth, melt
+                        #'SNOWLIQ', # snow liquid water
+                        #'QICE', # Ice growth, melt
 
 
                         ## Water balance
@@ -111,24 +111,17 @@ CLM5_BGC_EUR_0275_0001 = {
                         'SMP', # soil matric potential
                         ],
 
-    'hist_vars_pft': [
-                      'GPP', # Gross primary production
-                      'BTRANMN', # daily minimum beta transpiration factor
-                      'GSSHA', # stomatal conductance (shaded leaf)
-                      'GSSUN', # stomatal conductance (sunlit leaf
-                      'Qle', # Total evaporation
-                    ],
-
-    'year_start': 1989,
+    'hist_vars_pft': [],
+    'year_start': 2017,
     'month_start': 1,
 
-    'year_end': 2022,
+    'year_end': 2017,
     'month_end': 12,
 
-    'year_start_forcing': 1989,
+    'year_start_forcing': 2017,
     'month_start_forcing': 1,
 
-    'year_end_forcing': 2022,
+    'year_end_forcing': 2017,
     'month_end_forcing': 12,
     
     'dir_domain_lnd': '/p/scratch/cjibg31/jibg3105/CESMDataRoot/InputData/share/domains/EUR-0275/domain/',
@@ -137,30 +130,135 @@ CLM5_BGC_EUR_0275_0001 = {
     'dir_domain_atm': '/p/scratch/cjibg31/jibg3105/CESMDataRoot/InputData/share/domains/EUR-0275/domain/',
     'file_domain_atm': 'domain.lnd.EUR-0275_final.nc',
 
+    'domain_atm_vars': {'time': 'time',
+                        'lon': 'xc',
+                        'lat': 'yc',
+                        'area': 'area',
+                        'mask': 'mask'},
+
+    'dir_surf': '/p/scratch/cjibg31/jibg3105/CESMDataRoot/InputData/lnd/clm2/surfdata_map/EUR_0275/',
+    'file_surf': 'surfdata_EUR-0275_hist_78pfts_Irrig_CMIP6_simyr2000_c230216_GLC2000.nc',
+
+    'dir_init': '/p/scratch/cjibg31/jibg3105/data/CLM5EUR0275/restart/',
+    'file_init': 'CLM5_EUR0275-BGC_0001_production_2017-01-01.nc',
+
+    'dir_forcing': '/p/scratch/cjibg31/jibg3105/projects/SCENIC/forcing/3km/',
+
+    'vars_forcing' : {'swdn': 'FSDS',
+                      'precn': 'PRECTmms',
+                      'tbot': 'TBOT',
+                      'wind': 'WIND',
+                      'pbot': 'PSRF',
+                      'lwdn': 'FLDS',
+                      'shum': 'QBOT'},
+
+    'time_resolution_forcing_hours': 1,
+
+    'mode_co2': 'CO2A', 
+
+    'type_co2': 'diagnostic', 
+    'ppmv_co2': 379.0, 
+    
+    'series_co2': '20tr',
+
+    'dir_domain_co2': '/p/scratch/cjibg31/jibg3105/CESMDataRoot/InputData/atm/datm7/CO2/',
+    'file_domain_co2': 'greenhouse_ssp370.nc',
+
+    'domain_co2_vars': {'time': 'time',
+                        'lon': 'lon',
+                        'lat': 'lat',
+                        'area': 'area',
+                        'mask': 'mask'},
+
+    'dir_co2': '/p/scratch/cjibg31/jibg3105/CESMDataRoot/InputData/atm/datm7/CO2/',
+    'file_co2': 'greenhouse_ssp370.nc',
+
+    'vars_co2': {'co2diag': 'CO2'},
+
+    'coldstart': False,
+
+    'job_archive': False,
+
+    'AD_spin_up': False,
+
+    'continue_run': False
+
+}
+
+test = {
+
+    'dir_script': '/p/project/cjibg31/jibg3105/clm5.0/cime/scripts',
+    'name': 'CLM5-EUR0275-BGC_SCENIC_JR',
+    'compset': '2000_DATM%CRUv7_CLM50%BGC-CROP_SICE_SOCN_MOSART_SGLC_SWAV',
+    'partition': 'dc-cpu',
+    'n_cpu': 1024,
+    'ncpl': 48,
+    'wallclock': '3:00:00',
+    'months_per_wallclock': 1,
+    'dir_output': '/p/scratch/cjibg31/jibg3105/CESMDataRoot/CaseOutputs/',
+    
+    'hist_frq_grid': -24,
+    'hist_flt_grid': 365,
+    'hist_frq_pft': -24,
+    'hist_flt_pft': 365,
+    'mode_datm': 'CLMCRUNCEPv7',
+    'hist_vars_grid': [
+                        ## Vegetation function
+                        'TLAI', # Total leaf-area-index
+                        
+                        ## Evaporation
+                        'Qle', # Total evaporation
+                        ],
+
+    'hist_vars_pft': [],
+    'year_start': 2018,
+    'month_start': 1,
+
+    'year_end': 2018,
+    'month_end': 1,
+
+    'year_start_forcing': 2018,
+    'month_start_forcing': 1,
+
+    'year_end_forcing': 2018,
+    'month_end_forcing': 1,
+    
+    'dir_domain_lnd': '/p/scratch/cjibg31/jibg3105/CESMDataRoot/InputData/share/domains/EUR-0275/domain/',
+    'file_domain_lnd': 'domain.lnd.EUR-0275_final.nc',
+
+    'dir_domain_atm': '/p/scratch/cjibg31/jibg3105/CESMDataRoot/InputData/share/domains/EUR-0275/domain/',
+    'file_domain_atm': 'domain.lnd.EUR-0275_final.nc',
+
+    'domain_atm_vars': {'time': 'time',
+                        'lon': 'xc',
+                        'lat': 'yc',
+                        'area': 'area',
+                        'mask': 'mask'},
+
     'dir_surf': '/p/scratch/cjibg31/jibg3105/CESMDataRoot/InputData/lnd/clm2/surfdata_map/EUR_0275/',
     'file_surf': 'surfdata_EUR-0275_hist_78pfts_Irrig_CMIP6_simyr2000_c230216_GLC2000.nc',
 
     'dir_init': '/p/scratch/cjibg31/jibg3105/data/CLM5EUR0275/restart/',
     'file_init': 'CLM5_EUR0275-BGC_0001_production_1989-01-01.nc',
 
-    'dir_forcing': '/p/scratch/cjibg31/jibg3105/CESMDataRoot/InputData/Forcings/ERA5_EUR-0275/production/',
+    'dir_forcing': '/p/scratch/cjibg31/jibg3105/projects/SCENIC/forcing/3km/',
 
-    'vars_forcing' : {  'swdn': 'FSDS',
-                        'precn': 'PRECTmms',
-                        'tbot': 'TBOT',
-                        'wind': 'WIND',
-                        'pbot': 'PSRF',
-                        'lwdn': 'FLDS',
-                        'shum': 'QBOT'},
+    'vars_forcing' : {'swdn': 'FSDS',
+                      'precn': 'PRECTmms',
+                      'tbot': 'TBOT',
+                      'wind': 'WIND',
+                      'pbot': 'PSRF',
+                      'lwdn': 'FLDS',
+                      'shum': 'QBOT'},
 
-    'time_resolution_forcing_hours': 3,
+    'time_resolution_forcing_hours': 1,
 
-    'mode_co2': 'CO2A', 
+    'mode_co2': None, 
 
-    'type_co2': 'diagnostic', 
-    'ppmv_co2': 316.91, 
+    'type_co2': 'constant', 
+    'ppmv_co2': 379.0, 
     
-    'series_co2': '20tr',
+    'series_co2': None,
 
     'coldstart': False,
 

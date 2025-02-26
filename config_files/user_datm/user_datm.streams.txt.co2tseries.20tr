@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<file id="stream" version="1.0">
+<dataSource>
+   GENERIC
+</dataSource>
+<domainInfo>
+  <variableNames>
+co2_domain_vars
+  </variableNames>
+  <filePath>
+    dir_domain
+  </filePath>
+  <fileNames>
+     file_domain
+  </fileNames>
+</domainInfo>
+<fieldInfo>
+   <variableNames>
+vars_co2
+   </variableNames>
+   <filePath>
+     dir_co2
+   </filePath>
+   <fileNames>
+     file_co2
+   </fileNames>
+   <offset>
+      0
+   </offset>
+</fieldInfo>
+</file>

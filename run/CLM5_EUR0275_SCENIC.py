@@ -4,8 +4,8 @@ from CLM5_cases.CLM5 import case
 
 
 # Settings
-name_case           = 'test'
-do_case_delete      = True
+name_case           = 'scenic_PD_prod'
+do_case_delete      = False
 do_setup_clean      = False
 do_build_clean      = False
 do_submit           = True
