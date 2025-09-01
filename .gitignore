@@ -1,3 +1,6 @@
 *.pyc 
 *.pdf
 .vscode/*
+src/check_spinup/venv/venv/*
+
+

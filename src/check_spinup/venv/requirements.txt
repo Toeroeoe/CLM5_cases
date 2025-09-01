@@ -1,0 +1,9 @@
+pip
+numpy==1.26.4
+pandas
+matplotlib
+cartopy
+mpi4py
+pyarrow
+netCDF4
+pyyaml
