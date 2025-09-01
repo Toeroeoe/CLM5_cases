@@ -11,3 +11,5 @@ hist_mfilt  = hist_flt
 hist_vars_pft
 
 methane_model
+
+init_interpolation

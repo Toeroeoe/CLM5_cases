@@ -83,6 +83,8 @@ class case:
     dir_init: str | None = None
     file_init: str | None = None
 
+    init_interpolation: bool = False
+
     dir_forcing: str | None = None
 
     vars_forcing: dict | None = None
@@ -209,6 +211,8 @@ class case:
                        'DATM_CLMNCEP_YR_START': self.year_start_forcing,
                        'DATM_CLMNCEP_YR_END': self.year_end_forcing,
                        'RUN_STARTDATE': f'{self.year_start:04d}-{self.month_start:02d}-01',
+                       'REST_OPTION': 'nyears',
+                       'REST_N': 1,
                        'STOP_OPTION': 'nmonths',
                        'STOP_N': self.months_per_wallclock,
                        'STOP_DATE': -1,
@@ -281,13 +285,16 @@ class case:
                     
         methane_str = '' if self.methane_model else 'use_lch4 = .false.'
 
+        init_interpolation_str = 'use_init_interp = .true.' if self.init_interpolation else ''
+
         keys_namelist_clm = {'file_surf': f"'{self.dir_surf}/{self.file_surf}'",
                              'file_init': file_init,
                              'hist_frq': self.hist_frq_grid,
                              'hist_flt': self.hist_flt_grid,
                              'hist_vars_grid': hist_vars_grid,
                              'hist_vars_pft': hist_pft_str,
-                             'methane_model': methane_str}
+                             'methane_model': methane_str,
+                             'init_interpolation': init_interpolation_str}
         
         keys_namelist_datm  = {'year_start': self.year_start_forcing,
                                'year_end': self.year_end_forcing,
@@ -342,17 +349,26 @@ class case:
         
         for iy, y in enumerate(range(self.year_start_forcing, self.year_end_forcing + 1)):
 
-            m0 = self.month_start if iy == 0 else 0
+            m0 = self.month_start if iy == 0 else 1
             m1 = self.month_end + 1 if y == self.year_end_forcing else 13  
 
             for m in range (m0, m1):
 
                 year_files.append(f'\t\t{y}-{m:02d}.nc')
 
+        if self.dir_co2 is None: self.dir_co2 = '/p/scratch/cjibg31/jibg3105/CESMDataRoot/InputData/atm/datm7/CO2/'
+        if self.dir_domain_co2 is None: self.dir_domain_co2 = '/p/scratch/cjibg31/jibg3105/CESMDataRoot/InputData/atm/datm7/CO2/'
+        if self.file_domain_co2 is None: self.file_domain_co2 = 'fco2_datm_global_simyr_1750-2014_CMIP6_c180929.nc'
+        if self.file_co2 is None: self.file_co2 = 'fco2_datm_global_simyr_1750-2014_CMIP6_c180929.nc'
+
         if self.vars_forcing is None: self.vars_forcing = {}
         if self.domain_atm_vars is None : self.domain_atm_vars = {}
-        if self.domain_co2_vars is None : self.domain_co2_vars = {}
-        if self.vars_co2 is None: self.vars_co2 = {}
+        if self.domain_co2_vars is None : self.domain_co2_vars = {'time': 'time',
+                                                                  'lon': 'lonc',
+                                                                  'lat': 'latc',
+                                                                  'area': 'area',
+                                                                  'mask': 'mask'}
+        if self.vars_co2 is None: self.vars_co2 = {'co2diag': 'CO2'}
 
         keys_solar = {k: v for k, v in self.vars_forcing.items() if k == 'swdn'}
         keys_precn = {k: v for k, v in self.vars_forcing.items() if k == 'precn'}
@@ -415,7 +431,7 @@ class case:
                             dir_setup)
 
         subprocess.call(f'{dir_setup}/preview_namelists', cwd = dir_setup)
-        subprocess.call(f'cp user_datm.streams.* Buildconf/datmconf/', shell = True, cwd = dir_setup)
+        subprocess.call(f'cp user_datm.streams.txt.* Buildconf/datmconf/', shell = True, cwd = dir_setup)
 
         print('\nCase stream files created.\n')
 

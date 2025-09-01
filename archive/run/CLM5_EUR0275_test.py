@@ -1,10 +1,10 @@
 
-from cases import CLM5_EUR0275_SCENIC
+from cases import CLM5_EUR0275_test
 from CLM5 import case
 
 
 # Settings
-name_case           = 'scenic_PD_prod'
+name_case           = 'CLM5_BGC_EUR_0275_0001_test_JR'
 do_case_delete      = False
 do_setup_clean      = False
 do_build_clean      = False
@@ -12,7 +12,7 @@ do_submit           = True
 
 
 # Main
-my_case = case(**getattr(CLM5_EUR0275_SCENIC, 
+my_case = case(**getattr(CLM5_EUR0275_test, 
                          name_case))
 
 my_case.create(delete = do_case_delete)

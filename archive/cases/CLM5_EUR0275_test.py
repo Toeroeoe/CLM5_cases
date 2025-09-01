@@ -1,13 +1,13 @@
 
-CLM5_BGC_EUR_0275_0001 = {
+CLM5_BGC_EUR_0275_0001_test_JR = {
 
     'dir_script': '/p/project/cjibg31/jibg3105/clm5.0/cime/scripts',
-    'name': 'CLM5-EUR0275-BGC_0001_JR',
+    'name': 'CLM5-EUR0275-BGC_0001_test_JR',
     'compset': '2000_DATM%CRUv7_CLM50%BGC-CROP_SICE_SOCN_MOSART_SGLC_SWAV',
     'partition': 'dc-cpu',
     'n_cpu': 1024,
     'ncpl': 24,
-    'wallclock': '5:00:00',
+    'wallclock': '1:00:00',
     'months_per_wallclock': 12,
     'dir_output': '/p/scratch/cjibg31/jibg3105/CESMDataRoot/CaseOutputs/',
     
@@ -119,18 +119,18 @@ CLM5_BGC_EUR_0275_0001 = {
                       'Qle', # Total evaporation
                     ],
 
-    'year_start': 2022,
+    'year_start': 1,
     'month_start': 1,
 
-    'year_end': 2022,
-    'month_end': 12,
+    'year_end': 1,
+    'month_end': 1,
 
-    'year_start_forcing': 2022,
+    'year_start_forcing': 1950,
     'month_start_forcing': 1,
 
-    'year_end_forcing': 2022,
+    'year_end_forcing': 1950,
     'month_end_forcing': 12,
-    
+
     'dir_domain_lnd': '/p/scratch/cjibg31/jibg3105/CESMDataRoot/InputData/share/domains/EUR-0275/domain/',
     'file_domain_lnd': 'domain.lnd.EUR-0275_final.nc',
 
@@ -146,10 +146,10 @@ CLM5_BGC_EUR_0275_0001 = {
     'dir_surf': '/p/scratch/cjibg31/jibg3105/CESMDataRoot/InputData/lnd/clm2/surfdata_map/EUR_0275/',
     'file_surf': 'surfdata_EUR-0275_hist_78pfts_Irrig_CMIP6_simyr2000_c230216_GLC2000.nc',
 
-    'dir_init': '/p/scratch/cjibg31/jibg3105/data/CLM5EUR0275/restart/',
-    'file_init': 'CLM5-EUR0275-BGC_0001_JR.clm2.r.2022-01-01-00000.nc',
+    'dir_init': None,
+    'file_init': None,
 
-    'dir_forcing': '/p/scratch/cjibg31/jibg3105/CESMDataRoot/InputData/Forcings/ERA5_EUR-0275/production/',
+    'dir_forcing': '/p/data1/jibg31/poppe1/FORCINGS/ERA5/spinup/',
 
     'vars_forcing' : {  'swdn': 'FSDS',
                         'precn': 'PRECTmms',
@@ -161,14 +161,14 @@ CLM5_BGC_EUR_0275_0001 = {
 
     'time_resolution_forcing_hours': 3,
 
-    'mode_co2': 'CO2A', 
+    'mode_co2': None, 
 
-    'type_co2': 'diagnostic', 
+    'type_co2': 'constant', 
     'ppmv_co2': 316.91, 
     
-    'series_co2': '20tr',
+    'series_co2': None,
 
-    'coldstart': False,
+    'coldstart': True,
 
     'job_archive': False,
 
