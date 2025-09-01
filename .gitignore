@@ -2,5 +2,6 @@
 *.pdf
 .vscode/*
 src/check_spinup/venv/venv/*
+src/check_spinup/venv/python
 
 

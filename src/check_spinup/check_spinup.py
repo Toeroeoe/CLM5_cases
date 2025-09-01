@@ -8,7 +8,7 @@ from cartopy import crs
 from matplotlib.gridspec import GridSpec
 import matplotlib.ticker as mticker
 from typing import Literal
-
+import matplotlib as mpl
 
 def check_steady_state(name_case: str, 
                        subperiod: int, 
@@ -220,7 +220,7 @@ def check_steady_state(name_case: str,
             pc = crs.PlateCarree()
             xs, ys, _ = rp.transform_points(pc, np.array([351.1, 58]), np.array([26, 65.5])).T
             ax.set_extent([*xs,*ys])
-            cmap = cm.get_cmap('coolwarm', lut=2)
+            cmap = mpl.colormaps.get_cmap('coolwarm').resampled(2)
             artist = ax.pcolormesh(lon, lat, landarea_disequil[-1,:,:], rasterized=True, cmap=cmap, vmin=0, vmax=1, transform=pc, zorder=0)
 
             ax.coastlines(linewidth=1, zorder=2)
@@ -265,7 +265,7 @@ def check_steady_state(name_case: str,
             pc = crs.PlateCarree()
             xs, ys, _ = rp.transform_points(pc, np.array([351.1, 58]), np.array([26, 65.5])).T
             ax.set_extent([*xs,*ys])
-            cmap = cm.get_cmap('coolwarm')
+            cmap = mpl.colormaps.get_cmap('coolwarm')
             artist = ax.pcolormesh(lon, lat, delta_map_0, rasterized=True, vmin=-10, vmax=10, cmap=cmap, transform=pc, zorder=0)
 
             ax.coastlines(linewidth=1, zorder=2)
@@ -296,6 +296,7 @@ if __name__ == '__main__':
     check_steady_state(name_case='CLM5-EUR0275-BGC_0001_JR_surf_corr_test', 
                        subperiod=10,
                        path_hist='/p/data1/jibg31/CLM5_EU3_DETECT/BGC_spinup_correction/history/',
+                       file_freq='yearly',
                        year_start=1,
                        year_end=138,
                        path_grid='/p/scratch/cjibg31/jibg3105/CESMDataRoot/InputData/share/domains/EUR-0275/domain/',

@@ -1,5 +1,5 @@
-import CLM5_EU3_DETECT_surf_correction.config as config
-from CLM5 import case
+import config
+from case_run.CLM5 import case
 
 
 # Settings

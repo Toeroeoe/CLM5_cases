@@ -300,12 +300,12 @@ class case:
                                'year_end': self.year_end_forcing,
                                'dt_limit': dt_limit}
 
-        self.search_replace('config_files/user_nl/', 
+        self.search_replace('/p/scratch/cjibg31/jibg3105/projects/model_setups/CLM5_cases/src/case_run/config_files/user_nl/', 
                             'user_nl_clm', 
                             keys_namelist_clm, 
                             dir_setup)
         
-        self.search_replace('config_files/user_nl/', 
+        self.search_replace('/p/scratch/cjibg31/jibg3105/projects/model_setups/CLM5_cases/src/case_run/config_files/user_nl/', 
                             'user_nl_datm', 
                             keys_namelist_datm, 
                             dir_setup)
@@ -409,23 +409,23 @@ class case:
                              'dir_co2': self.dir_co2,
                              'file_co2': self.file_co2,
                              'vars_co2': str_co2}
-        
-        self.search_replace('config_files/user_datm/', 
+
+        self.search_replace('/p/scratch/cjibg31/jibg3105/projects/model_setups/CLM5_cases/src/case_run/config_files/user_datm/', 
                             'user_datm.streams.txt.CLMCRUNCEPv7.Precip', 
                             keys_streams_precn, 
                             dir_setup)
-        
-        self.search_replace('config_files/user_datm/', 
+
+        self.search_replace('/p/scratch/cjibg31/jibg3105/projects/model_setups/CLM5_cases/src/case_run/config_files/user_datm/', 
                             'user_datm.streams.txt.CLMCRUNCEPv7.Solar', 
                             keys_streams_solar, 
                             dir_setup)
-        
-        self.search_replace('config_files/user_datm/', 
+
+        self.search_replace('/p/scratch/cjibg31/jibg3105/projects/model_setups/CLM5_cases/src/case_run/config_files/user_datm/', 
                             'user_datm.streams.txt.CLMCRUNCEPv7.TPQW', 
                             keys_streams_tpqw, 
                             dir_setup)
-        
-        self.search_replace('config_files/user_datm/', 
+
+        self.search_replace('/p/scratch/cjibg31/jibg3105/projects/model_setups/CLM5_cases/src/case_run/config_files/user_datm/', 
                             'user_datm.streams.txt.co2tseries.20tr', 
                             keys_streams_co2, 
                             dir_setup)
