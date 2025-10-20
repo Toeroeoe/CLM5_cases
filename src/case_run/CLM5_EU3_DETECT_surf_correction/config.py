@@ -19,7 +19,7 @@ test = {
        'hist_vars_grid': ['GPP', 'TLAI', 'TOTECOSYSC', 'TOTECOSYSN', 'TOTSOMC', 'TOTVEGC', 'TWS'],
     'hist_vars_pft': [],
 
-    'year_start': 139,
+    'year_start': 241,
     'month_start': 1,
 
     'year_end': 300,
@@ -47,7 +47,7 @@ test = {
     'file_surf': 'surfdata_EUR-0275_hist_78pfts_Irrig_CMIP6_simyr2000_c230216_GLC2000_corrected_3.nc',
 
     'dir_init': '/p/data1/jibg31/CLM5_EU3_DETECT/BGC_spinup_correction/restart/',
-    'file_init': 'CLM5-EUR0275-BGC_0001_JR_surf_corr_test.clm2.r.0139-01-01-00000.nc',
+    'file_init': 'CLM5-EUR0275-BGC_0001_JR_surf_corr_test.clm2.r.0241-01-01-00000.nc',
 
     'init_interpolation': False,
 

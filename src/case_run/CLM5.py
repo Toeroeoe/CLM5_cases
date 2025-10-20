@@ -5,6 +5,7 @@
 # Spinup functionality
 
 from dataclasses import dataclass, field
+from pathlib import Path
 import os
 import subprocess
 import shutil
@@ -33,7 +34,7 @@ class case:
     - Test / adapt for single-point cases
     -
     """
-
+    computer: str
     dir_script: str 
     name: str
     compset: str
@@ -63,10 +64,13 @@ class case:
     hist_flt_pft: int = 365
 
     month_start: int = 1
+    day_start: int = 1
     month_end: int = 12
 
     month_start_forcing: int = 1
     month_end_forcing: int = 12
+
+    dtlimit: float | None = None
 
     custom_forcings: bool = True
 
@@ -137,7 +141,7 @@ class case:
 
         print('Create case command:',
               f'{self.dir_script}/create_newcase', 
-              '--case', self.name, 
+              '--case', f'{self.name}_{self.computer}', 
               '--res', 'CLM_USRDAT' , 
               '--compset', self.compset, 
               '--run-unsupported',
@@ -210,7 +214,7 @@ class case:
                        'DATM_CLMNCEP_YR_ALIGN': self.year_start_forcing,
                        'DATM_CLMNCEP_YR_START': self.year_start_forcing,
                        'DATM_CLMNCEP_YR_END': self.year_end_forcing,
-                       'RUN_STARTDATE': f'{self.year_start:04d}-{self.month_start:02d}-01',
+                       'RUN_STARTDATE': f'{self.year_start:04d}-{self.month_start:02d}-{self.day_start:02d}',
                        'REST_OPTION': 'nyears',
                        'REST_N': 1,
                        'STOP_OPTION': 'nmonths',
@@ -264,7 +268,7 @@ class case:
 
         hist_vars_grid = "'" + "', '".join(self.hist_vars_grid) + "'"
 
-        dt_limit = ((24 + self.time_resolution_forcing_hours) / self.time_resolution_forcing_hours) + 1
+        dt_limit = self.dtlimit if self.dtlimit is not None else ((self.ncpl + self.time_resolution_forcing_hours) / self.time_resolution_forcing_hours) + 1
 
         if self.hist_vars_pft:
             hist_vars_pft_0 = "'" + "', '".join(self.hist_vars_pft) + "'"
@@ -300,15 +304,23 @@ class case:
                                'year_end': self.year_end_forcing,
                                'dt_limit': dt_limit}
 
-        self.search_replace('/p/scratch/cjibg31/jibg3105/projects/model_setups/CLM5_cases/src/case_run/config_files/user_nl/', 
+        self.search_replace(f'{Path(__file__).resolve().parent}/config_files/user_nl/', 
                             'user_nl_clm', 
                             keys_namelist_clm, 
                             dir_setup)
-        
-        self.search_replace('/p/scratch/cjibg31/jibg3105/projects/model_setups/CLM5_cases/src/case_run/config_files/user_nl/', 
+
+        self.search_replace(f'{Path(__file__).resolve().parent}/config_files/user_nl/', 
                             'user_nl_datm', 
                             keys_namelist_datm, 
                             dir_setup)
+        
+        subprocess.call(f'cp user_nl_cpl {dir_setup}', 
+                        shell = True, 
+                        cwd = f'{Path(__file__).resolve().parent}/config_files/user_nl/')
+        
+        subprocess.call(f'cp user_nl_mosart {dir_setup}', 
+                        shell = True, 
+                        cwd = f'{Path(__file__).resolve().parent}/config_files/user_nl/')
 
 
         print('\nNamelists created and copied.\n')
@@ -410,26 +422,26 @@ class case:
                              'file_co2': self.file_co2,
                              'vars_co2': str_co2}
 
-        self.search_replace('/p/scratch/cjibg31/jibg3105/projects/model_setups/CLM5_cases/src/case_run/config_files/user_datm/', 
+        self.search_replace(f'{Path(__file__).resolve().parent}/config_files/user_datm/', 
                             'user_datm.streams.txt.CLMCRUNCEPv7.Precip', 
                             keys_streams_precn, 
                             dir_setup)
 
-        self.search_replace('/p/scratch/cjibg31/jibg3105/projects/model_setups/CLM5_cases/src/case_run/config_files/user_datm/', 
+        self.search_replace(f'{Path(__file__).resolve().parent}/config_files/user_datm/', 
                             'user_datm.streams.txt.CLMCRUNCEPv7.Solar', 
                             keys_streams_solar, 
                             dir_setup)
 
-        self.search_replace('/p/scratch/cjibg31/jibg3105/projects/model_setups/CLM5_cases/src/case_run/config_files/user_datm/', 
+        self.search_replace(f'{Path(__file__).resolve().parent}/config_files/user_datm/', 
                             'user_datm.streams.txt.CLMCRUNCEPv7.TPQW', 
                             keys_streams_tpqw, 
                             dir_setup)
 
-        self.search_replace('/p/scratch/cjibg31/jibg3105/projects/model_setups/CLM5_cases/src/case_run/config_files/user_datm/', 
+        self.search_replace(f'{Path(__file__).resolve().parent}/config_files/user_datm/', 
                             'user_datm.streams.txt.co2tseries.20tr', 
                             keys_streams_co2, 
                             dir_setup)
-
+        
         subprocess.call(f'{dir_setup}/preview_namelists', cwd = dir_setup)
         subprocess.call(f'cp user_datm.streams.txt.* Buildconf/datmconf/', shell = True, cwd = dir_setup)
 

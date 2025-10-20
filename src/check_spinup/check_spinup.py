@@ -85,7 +85,7 @@ def check_steady_state(name_case: str,
 
         file_data = [glob(f'{path_hist}/{name_case}*.clm2.h0.{yy:04d}-{mm:02d}*')[0] for yy in range(year_start, year_end + 1) for mm in range(1,13)]
     elif file_freq == 'yearly':
-        file_data = [glob(f'{path_hist}/{name_case}*.clm2.h0.{yy:04d}-01-01-*')[0] for yy in range(year_start, year_end + 1)]
+        file_data = [glob(f'{path_hist}/{name_case}*.clm2.h0.{yy:04d}-*-01-*')[0] for yy in range(year_start, year_end + 1)]
 
     data_grid = Dataset(f'{path_grid}/{file_grid}')
 
@@ -292,13 +292,12 @@ def check_steady_state(name_case: str,
 
 if __name__ == '__main__':
 
-
-    check_steady_state(name_case='CLM5-EUR0275-BGC_0001_JR_surf_corr_test', 
+    check_steady_state(name_case='CLM5-EUR0275-BGC_spinup_0001_JW', 
                        subperiod=10,
-                       path_hist='/p/data1/jibg31/CLM5_EU3_DETECT/BGC_spinup_correction/history/',
+                       path_hist='/p/data1/jibg31/CLM5_EU3_DETECT/BGC_spinup/history',
                        file_freq='yearly',
-                       year_start=1,
-                       year_end=138,
+                       year_start=138,
+                       year_end=1247,
                        path_grid='/p/scratch/cjibg31/jibg3105/CESMDataRoot/InputData/share/domains/EUR-0275/domain/',
                        file_grid='domain.lnd.EUR-0275_final.nc',
                        var_lat='yc',
