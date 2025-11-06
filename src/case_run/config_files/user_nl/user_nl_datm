@@ -3,5 +3,5 @@ streams = "user_datm.streams.txt.CLMCRUNCEPv7.Solar year_start year_start year_e
         "user_datm.streams.txt.CLMCRUNCEPv7.Precip year_start year_start year_end",
         "user_datm.streams.txt.CLMCRUNCEPv7.TPQW year_start year_start year_end"
 
-dtlimit = dt_limit, dt_limit, dt_limit, dt_limit, dt_limit
+dtlimit = dt_limit, dt_limit, dt_limit, dt_limit, dt_limit, dt_limit
 

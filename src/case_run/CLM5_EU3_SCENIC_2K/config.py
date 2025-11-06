@@ -2,14 +2,14 @@
 scenic_2K_prod = {
 
     'computer': 'JW',
-    'dir_script': '/p/project/cjibg31/jibg3105/clm5.0/cime/scripts',
+    'dir_script': '/p/project1/cjibg31/jibg3105/clm5.0/cime/scripts',
     'name': 'CLM5-EUR0275-BGC_SCENIC_2K_prod',
     'compset': '2000_DATM%CRUv7_CLM50%BGC-CROP_SICE_SOCN_MOSART_SGLC_SWAV',
     'partition': 'batch',
     'n_cpu': 1024,
     'ncpl': 48,
-    'wallclock': '8:00:00',
-    'months_per_wallclock': 12,
+    'wallclock': '15:00:00',
+    'months_per_wallclock': 24,
     'dir_output': '/p/scratch/cjibg31/jibg3105/CESMDataRoot/CaseOutputs/',
     
     'hist_frq_grid': -24,
@@ -118,13 +118,14 @@ scenic_2K_prod = {
     'day_start': 2,
 
     'year_end': 2043,
-    'month_end': 8,
+    'month_end': 9,
+    'day_end': 30,
 
     'year_start_forcing': 2038,
     'month_start_forcing': 1,
 
     'year_end_forcing': 2043,
-    'month_end_forcing': 8,
+    'month_end_forcing': 9,
 
     'dtlimit': None,
     
@@ -144,7 +145,7 @@ scenic_2K_prod = {
     'file_surf': 'surfdata_EUR-0275_hist_78pfts_Irrig_CMIP6_simyr2000_c230216_GLC2000.nc',
 
     'dir_init': '/p/data1/jibg31/CLM5_EU3_SCENIC/2K/spinup/restart/',
-    'file_init': 'CLM5-EUR0275-BGC_SCENIC_2K_spinup.clm2.r.0011-01-02-00000.nc',
+    'file_init': 'CLM5-EUR0275-BGC_SCENIC_2K_spinup.clm2.r.0011-01-01-00000.nc',
 
     'dir_forcing': '/p/scratch/cjibg31/jibg3105/CESMDataRoot/InputData/Forcings/SCENIC/3km/2K/',
 
@@ -161,23 +162,13 @@ scenic_2K_prod = {
     'mode_co2': 'CO2A', 
 
     'type_co2': 'diagnostic', 
-    'ppmv_co2': 379.0, 
+    'ppmv_co2': 493.22, # for 2040 from /p/scratch/cjibg31/jibg3105/CESMDataRoot/InputData/atm/datm7/CO2/greenhouse_ssp370.nc
     
     'series_co2': '20tr',
 
-    #'dir_domain_co2': '/p/scratch/cjibg31/jibg3105/CESMDataRoot/InputData/atm/datm7/CO2/',
     'file_domain_co2': 'greenhouse_ssp370_adjusted.nc',
 
-    #'domain_co2_vars': {'time': 'time',
-    #                    'lon': 'lonc',
-    #                    'lat': 'latc',
-    #                    'area': 'area',
-    #                    'mask': 'mask'},
-
-    #'dir_co2': '/p/scratch/cjibg31/jibg3105/CESMDataRoot/InputData/atm/datm7/CO2/',
-
     'file_co2': 'greenhouse_ssp370_adjusted.nc',
-    #'vars_co2': {'co2diag': 'CO2'},
 
     'coldstart': False,
 
@@ -192,14 +183,14 @@ scenic_2K_prod = {
 scenic_2K_spinup = {
 
     'computer': 'JW',
-    'dir_script': '/p/project/cjibg31/jibg3105/clm5.0/cime/scripts',
+    'dir_script': '/p/project1/cjibg31/jibg3105/clm5.0/cime/scripts',
     'name': 'CLM5-EUR0275-BGC_SCENIC_2K_spinup',
     'compset': '2000_DATM%CRUv7_CLM50%BGC-CROP_SICE_SOCN_MOSART_SGLC_SWAV',
     'partition': 'batch',
     'n_cpu': 1024,
     'ncpl': 48,
-    'wallclock': '8:00:00',
-    'months_per_wallclock': 12,
+    'wallclock': '15:00:00',
+    'months_per_wallclock': 24,
     'dir_output': '/p/scratch/cjibg31/jibg3105/CESMDataRoot/CaseOutputs/',
     
     'hist_frq_grid': -24,
@@ -211,7 +202,7 @@ scenic_2K_spinup = {
 
     'hist_vars_pft': [],
     
-    'year_start': 4,
+    'year_start': 1,
     'month_start': 1,
     'day_start': 2,
 
@@ -239,8 +230,8 @@ scenic_2K_spinup = {
     'dir_surf': '/p/scratch/cjibg31/jibg3105/CESMDataRoot/InputData/lnd/clm2/surfdata_map/EUR_0275/',
     'file_surf': 'surfdata_EUR-0275_hist_78pfts_Irrig_CMIP6_simyr2000_c230216_GLC2000.nc',
 
-    'dir_init': '/p/data1/jibg31/CLM5_EU3_SCENIC/2K/spinup/restart/',
-    'file_init': 'CLM5-EUR0275-BGC_SCENIC_2K_spinup.clm2.r.0004-01-02-00000.nc',
+    'dir_init': '/p/scratch/cjibg31/jibg3105/data/CLM5EU3_SCENIC/restart/',
+    'file_init': 'CLM5-EUR0275-BGC_SCENIC_PD_prod_JR.clm2.r.2023-01-01-00000.nc',
 
     'dir_forcing': '/p/scratch/cjibg31/jibg3105/CESMDataRoot/InputData/Forcings/SCENIC/3km/2K/spinup/',
 
@@ -257,7 +248,7 @@ scenic_2K_spinup = {
     'mode_co2': None, 
 
     'type_co2': 'constant', 
-    'ppmv_co2': 392.5, # for 2040 from /p/scratch/cjibg31/jibg3105/CESMDataRoot/InputData/atm/datm7/CO2/greenhouse_ssp370.nc
+    'ppmv_co2': 471.54, # for 2035 from /p/scratch/cjibg31/jibg3105/CESMDataRoot/InputData/atm/datm7/CO2/greenhouse_ssp370.nc
     
     'series_co2': None,
 

@@ -35,10 +35,10 @@ class case:
     -
     """
     computer: str
+    partition: str
     dir_script: str 
     name: str
     compset: str
-    partition: str
     n_cpu: int
     year_start: int
     year_end: int
@@ -66,6 +66,7 @@ class case:
     month_start: int = 1
     day_start: int = 1
     month_end: int = 12
+    day_end: int = 31
 
     month_start_forcing: int = 1
     month_end_forcing: int = 12
@@ -201,8 +202,10 @@ class case:
 
 
 
-        n_months = (np.datetime64(f'{self.year_end}-{self.month_end:>02}') - \
+        n_months = (np.datetime64(f'{self.year_end}-{self.month_end:>02}')- \
                     np.datetime64(f'{self.year_start}-{self.month_start:>02}')) / np.timedelta64(1, 'M')
+        
+        print(f'Number of months to simulate: {n_months:.0f}')
 
         resubmit = (np.ceil(n_months / self.months_per_wallclock) - 1).astype(int)
 
@@ -215,11 +218,12 @@ class case:
                        'DATM_CLMNCEP_YR_START': self.year_start_forcing,
                        'DATM_CLMNCEP_YR_END': self.year_end_forcing,
                        'RUN_STARTDATE': f'{self.year_start:04d}-{self.month_start:02d}-{self.day_start:02d}',
-                       'REST_OPTION': 'nyears',
-                       'REST_N': 1,
+                       'STOP_DATE': -1,
                        'STOP_OPTION': 'nmonths',
                        'STOP_N': self.months_per_wallclock,
-                       'STOP_DATE': -1,
+                       'STOP_DATE': f'{self.year_end:04d}{self.month_end:02d}{self.day_end:02d}',
+                       'REST_OPTION': 'nmonths',
+                       'REST_N': 12,
                        'JOB_WALLCLOCK_TIME': self.wallclock,
                        'CLM_ACCELERATED_SPINUP': self.AD_spin_up,
                        'RESUBMIT': resubmit,

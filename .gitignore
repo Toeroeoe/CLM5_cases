@@ -1,7 +1,11 @@
 *.pyc 
 *.pdf
+*.nc
+*.out
+*.err
 .vscode/*
 src/check_spinup/venv/venv/*
 src/check_spinup/venv/python
-
+src/CLM5_cases.egg-info/*
+src/post_process/venv/*
 
