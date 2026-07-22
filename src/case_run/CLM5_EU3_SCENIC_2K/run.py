@@ -4,7 +4,7 @@ from case_run.CLM5 import case
 
 # Settings
 name_case           = 'scenic_2K_prod'
-do_case_delete      = False
+do_case_delete      = True
 do_setup_clean      = False
 do_build_clean      = False
 do_submit           = True

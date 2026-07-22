@@ -3,7 +3,7 @@ import config
 from case_run.CLM5 import case
 
 # Settings
-name_case           = 'scenic_3K_spinup'
+name_case           = 'scenic_3K_prod'
 do_case_delete      = False
 do_setup_clean      = False
 do_build_clean      = False

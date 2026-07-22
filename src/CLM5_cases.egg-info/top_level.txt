@@ -1,2 +1,4 @@
 case_run
 check_spinup
+create_forcings
+post_process

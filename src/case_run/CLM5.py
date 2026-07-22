@@ -218,7 +218,6 @@ class case:
                        'DATM_CLMNCEP_YR_START': self.year_start_forcing,
                        'DATM_CLMNCEP_YR_END': self.year_end_forcing,
                        'RUN_STARTDATE': f'{self.year_start:04d}-{self.month_start:02d}-{self.day_start:02d}',
-                       'STOP_DATE': -1,
                        'STOP_OPTION': 'nmonths',
                        'STOP_N': self.months_per_wallclock,
                        'STOP_DATE': f'{self.year_end:04d}{self.month_end:02d}{self.day_end:02d}',
@@ -372,10 +371,10 @@ class case:
 
                 year_files.append(f'\t\t{y}-{m:02d}.nc')
 
-        if self.dir_co2 is None: self.dir_co2 = '/p/scratch/cjibg31/jibg3105/CESMDataRoot/InputData/atm/datm7/CO2/'
-        if self.dir_domain_co2 is None: self.dir_domain_co2 = '/p/scratch/cjibg31/jibg3105/CESMDataRoot/InputData/atm/datm7/CO2/'
-        if self.file_domain_co2 is None: self.file_domain_co2 = 'fco2_datm_global_simyr_1750-2014_CMIP6_c180929.nc'
-        if self.file_co2 is None: self.file_co2 = 'fco2_datm_global_simyr_1750-2014_CMIP6_c180929.nc'
+        #if self.dir_co2 is None: self.dir_co2 = '/p/scratch/cjibg31/jibg3105/CESMDataRoot/InputData/atm/datm7/CO2/'
+        #if self.dir_domain_co2 is None: self.dir_domain_co2 = '/p/scratch/cjibg31/jibg3105/CESMDataRoot/InputData/atm/datm7/CO2/'
+        #if self.file_domain_co2 is None: self.file_domain_co2 = 'fco2_datm_global_simyr_1750-2014_CMIP6_c180929.nc'
+        #if self.file_co2 is None: self.file_co2 = 'fco2_datm_global_simyr_1750-2014_CMIP6_c180929.nc'
 
         if self.vars_forcing is None: self.vars_forcing = {}
         if self.domain_atm_vars is None : self.domain_atm_vars = {}
@@ -419,13 +418,6 @@ class case:
                              'year_files': '\n'.join(year_files),
                              'vars_tpqw': str_tpqw}
 
-        keys_streams_co2 = {'co2_domain_vars': str_co2_domain_vars,
-                             'dir_domain': self.dir_domain_co2,
-                             'file_domain': self.file_domain_co2, 
-                             'dir_co2': self.dir_co2,
-                             'file_co2': self.file_co2,
-                             'vars_co2': str_co2}
-
         self.search_replace(f'{Path(__file__).resolve().parent}/config_files/user_datm/', 
                             'user_datm.streams.txt.CLMCRUNCEPv7.Precip', 
                             keys_streams_precn, 
@@ -441,7 +433,16 @@ class case:
                             keys_streams_tpqw, 
                             dir_setup)
 
-        self.search_replace(f'{Path(__file__).resolve().parent}/config_files/user_datm/', 
+        if self.dir_co2 is not None: 
+
+            keys_streams_co2 = {'co2_domain_vars': str_co2_domain_vars,
+                                 'dir_domain': self.dir_domain_co2,
+                                 'file_domain': self.file_domain_co2, 
+                                 'dir_co2': self.dir_co2,
+                                 'file_co2': self.file_co2,
+                                 'vars_co2': str_co2}
+            
+            self.search_replace(f'{Path(__file__).resolve().parent}/config_files/user_datm/', 
                             'user_datm.streams.txt.co2tseries.20tr', 
                             keys_streams_co2, 
                             dir_setup)

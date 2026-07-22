@@ -4,8 +4,11 @@ pyproject.toml
 src/CLM5_cases.egg-info/PKG-INFO
 src/CLM5_cases.egg-info/SOURCES.txt
 src/CLM5_cases.egg-info/dependency_links.txt
+src/CLM5_cases.egg-info/requires.txt
 src/CLM5_cases.egg-info/top_level.txt
 src/case_run/CLM5.py
+src/case_run/CLM5_1PT_Aurade/config.py
+src/case_run/CLM5_1PT_Aurade/run.py
 src/case_run/CLM5_EU3_DETECT_spinup_AD/config.py
 src/case_run/CLM5_EU3_DETECT_spinup_AD/run.py
 src/case_run/CLM5_EU3_DETECT_spinup_postAD/config.py
@@ -14,4 +17,9 @@ src/case_run/CLM5_EU3_DETECT_surf_correction/config.py
 src/case_run/CLM5_EU3_DETECT_surf_correction/run.py
 src/case_run/CLM5_EU3_SCENIC_2K/config.py
 src/case_run/CLM5_EU3_SCENIC_2K/run.py
+src/case_run/CLM5_EU3_SCENIC_3K/config.py
+src/case_run/CLM5_EU3_SCENIC_3K/run.py
+src/case_run/CLM5_EU3_SCENIC_4K/config.py
+src/case_run/CLM5_EU3_SCENIC_4K/run.py
 src/check_spinup/check_spinup.py
+src/post_process/make_yearly_resample.py
